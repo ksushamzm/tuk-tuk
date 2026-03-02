@@ -14,7 +14,6 @@ const AboutPage: React.FC = () => {
           {/* Logo Box */}
           <div className="h-[415px] border-b-2 border-black relative flex items-center justify-center overflow-hidden bg-white">
              <div className="relative w-full h-full p-6 flex items-center justify-center">
-                 <div className="relative flex items-center justify-center border-4 border-black w-full h-full p-4">
                       <div className="relative w-full h-full flex items-center justify-center">
                           <TukTukLogo 
                             className="w-[90%] h-auto" 
@@ -32,14 +31,13 @@ const AboutPage: React.FC = () => {
                               </span>
                           </div>
                       </div>
-                 </div>
              </div>
           </div>
           
           {/* Shrine Image */}
           <div className="flex-1 min-h-[500px]">
             <img 
-              src="https://images.unsplash.com/photo-1528181304800-2f140819ad54?auto=format&fit=crop&q=80&w=800" 
+              src="/images/слева первая.jpg " 
               alt="Thai Shrine" 
               className="w-full h-full object-cover"
             />
