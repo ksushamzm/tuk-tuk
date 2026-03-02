@@ -13,7 +13,7 @@ const Hero: React.FC<HeroProps> = ({ content }) => {
 
   const title = content?.['hero_title'] || 'МЕДИА-ЖУРНАЛ \n О КУЛЬТУРЕ ТАИЛАНДА';
   const linkText = content?.['hero_link_text'] || 'От храмов до небоскрёбов: \n архитектура Таиланда';
-  const heroImage = content?.['hero_image'] || '/images/hero.jpg';
+  const heroImage = content?.['hero_image'] || '/images/right1.png';
 
   return (
     <div className="w-full bg-white flex flex-col lg:flex-row border-b-2 border-black">
