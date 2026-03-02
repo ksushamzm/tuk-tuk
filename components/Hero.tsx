@@ -47,7 +47,7 @@ const Hero: React.FC<HeroProps> = ({ content }) => {
         {/* Shrine Image */}
         <div className="h-[300px] lg:h-[535px] relative overflow-hidden bg-gray-100 shrink-0">
            <img 
-            src="https://picsum.photos/seed/shrine9/600/800" 
+            src="./images/hero.jpg" 
             alt="Thai Shrine" 
             className="w-full h-full object-cover"
            />
