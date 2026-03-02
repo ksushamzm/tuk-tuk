@@ -13,7 +13,7 @@ const Hero: React.FC<HeroProps> = ({ content }) => {
 
   const title = content?.['hero_title'] || 'МЕДИА-ЖУРНАЛ \n О КУЛЬТУРЕ ТАИЛАНДА';
   const linkText = content?.['hero_link_text'] || 'От храмов до небоскрёбов: \n архитектура Таиланда';
-  const heroImage = content?.['hero_image'] || './images/hero.jpg';
+  const heroImage = content?.['hero_image'] || '/images/hero.jpg';
 
   return (
     <div className="w-full bg-white flex flex-col lg:flex-row border-b-2 border-black">
@@ -64,6 +64,18 @@ const Hero: React.FC<HeroProps> = ({ content }) => {
            </h2>
          </div>
 
+                  {/* Sticker ИНТЕРЕСНОЕ */}
+                  <div className="absolute top-4 right-4 md:top-[30px] md:right-[140px] z-20">
+                     <span className="font-roboto italic font-black text-3xl md:text-[42px] uppercase text-white tracking-normal block leading-none"
+                           style={{ 
+                             WebkitTextStroke: '2px black', 
+                             paintOrder: 'stroke fill',
+                             textShadow: '4px 4px 0px #000' 
+                           }}>
+                       ИНТЕРЕСНОЕ
+                     </span>
+                  </div>
+                  
          {/* Row 2: Split Pink Strip and Hero Content */}
          <div className="flex-1 flex flex-col md:flex-row lg:h-[736px]">
             
@@ -83,17 +95,7 @@ const Hero: React.FC<HeroProps> = ({ content }) => {
                     className="w-full h-full object-cover object-top"
                   />
                   
-                  {/* Sticker ИНТЕРЕСНОЕ */}
-                  <div className="absolute top-4 right-4 md:top-[30px] md:right-[140px] z-20">
-                     <span className="font-roboto italic font-black text-3xl md:text-[42px] uppercase text-white tracking-normal block leading-none"
-                           style={{ 
-                             WebkitTextStroke: '2px black', 
-                             paintOrder: 'stroke fill',
-                             textShadow: '4px 4px 0px #000' 
-                           }}>
-                       ИНТЕРЕСНОЕ
-                     </span>
-                  </div>
+
 
                   {/* Sticker Thai Symbol ๙ (Number 9) */}
                   <div className="absolute top-[-20px] right-[-20px] md:top-[-30px] md:right-[-30px] z-30 w-32 h-32 md:w-48 md:h-48 lg:w-56 lg:h-56">
