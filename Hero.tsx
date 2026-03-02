@@ -13,7 +13,7 @@ const Hero: React.FC<HeroProps> = ({ content }) => {
 
   const title = content?.['hero_title'] || 'МЕДИА-ЖУРНАЛ \n О КУЛЬТУРЕ ТАИЛАНДА';
   const linkText = content?.['hero_link_text'] || 'От храмов до небоскрёбов: \n архитектура Таиланда';
-  const heroImage = content?.['hero_image'] || '/images/right1.png';
+  const heroImage = content?.['hero_image'] || '/images/hero.jpg';
 
   return (
     <div className="w-full bg-white flex flex-col lg:flex-row border-b-2 border-black">
@@ -47,7 +47,7 @@ const Hero: React.FC<HeroProps> = ({ content }) => {
         {/* Shrine Image */}
         <div className="h-[300px] lg:h-[535px] relative overflow-hidden bg-gray-100 shrink-0">
            <img 
-            src="/images/hero.jpg" 
+            src="/images/right1.png" 
             alt="Thai Shrine" 
             className="w-full h-full object-cover"
            />
