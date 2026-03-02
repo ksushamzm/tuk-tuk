@@ -47,7 +47,7 @@ const Hero: React.FC<HeroProps> = ({ content }) => {
         {/* Shrine Image */}
         <div className="h-[300px] lg:h-[535px] relative overflow-hidden bg-gray-100 shrink-0">
            <img 
-            src="./images/hero.jpg" 
+            src="/images/hero.jpg" 
             alt="Thai Shrine" 
             className="w-full h-full object-cover"
            />
@@ -75,7 +75,7 @@ const Hero: React.FC<HeroProps> = ({ content }) => {
                        ИНТЕРЕСНОЕ
                      </span>
                   </div>
-                  
+
          {/* Row 2: Split Pink Strip and Hero Content */}
          <div className="flex-1 flex flex-col md:flex-row lg:h-[736px]">
             
