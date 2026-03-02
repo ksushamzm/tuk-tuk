@@ -44,7 +44,7 @@ const Footer: React.FC = () => {
       {/* Bottom Section */}
       <div className="mt-auto pt-16 flex justify-between items-end">
          <p className="font-roboto italic font-normal text-2xl md:text-3xl leading-tight text-black">
-           © 2023 Медиа-журнал о культуре Таиланда. <br className="md:hidden" /> Все права защищены.
+           © 2026 Медиа-журнал о культуре Таиланда. <br className="md:hidden" /> Все права защищены.
          </p>
          <Link 
            to="/admin" 
