@@ -61,7 +61,7 @@ const CategoryGrid: React.FC<CategoryGridProps> = ({ content }) => {
       <div className="grid grid-cols-2 md:grid-cols-3 border-b-2 border-black">
          <Card 
             title={content?.['category_1_title'] || "ТРАНСПОРТ"} 
-            image={content?.['category_1_image'] || "транспорт.jpg"} 
+            image={content?.['category_1_image'] || "/images/транспорт.jpg"} 
             hasSticker={true}
             // Mobile: z-10 (bottom), Desktop: z-30 (top left)
             className="border-b-2 md:border-b-0 border-r-2 z-10 md:z-30 h-[300px] md:h-[580px]"
@@ -69,7 +69,7 @@ const CategoryGrid: React.FC<CategoryGridProps> = ({ content }) => {
          />
          <Card 
             title={content?.['category_2_title'] || "БУДДИЗМ"} 
-            image={content?.['category_2_image'] || "буддизм.jpg"} 
+            image={content?.['category_2_image'] || "/images/буддизм.jpg"} 
             hasSticker={true}
             // Mobile: z-20 (middle), Desktop: z-20 (middle)
             className="border-b-2 md:border-b-0 md:border-r-2 z-20 md:z-20 h-[300px] md:h-[580px]"
@@ -77,7 +77,7 @@ const CategoryGrid: React.FC<CategoryGridProps> = ({ content }) => {
          />
          <Card 
             title={content?.['category_3_title'] || "АРХИТЕКТУРА"} 
-            image={content?.['category_3_image'] || "архитектура.jpg"} 
+            image={content?.['category_3_image'] || "/images/архитектура.jpg"} 
             hasSticker={true}
             // Mobile: z-30 (top), Desktop: z-10 (bottom right)
             className="border-r-2 md:border-r-0 col-span-2 md:col-span-1 z-30 md:z-10 h-[300px] md:h-[580px]" 

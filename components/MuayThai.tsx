@@ -46,7 +46,7 @@ const MuayThai: React.FC<MuayThaiProps> = ({ content }) => {
       {/* Right Image (Spans 1 column) */}
       <div className="md:col-span-1 relative h-[500px] md:h-auto overflow-hidden">
          <img 
-           src={content?.['muay_thai_image'] || "/images/боксерша.jpg"} 
+           src={content?.['muay_thai_image'] || "public/images/боксерша.jpg"} 
            alt="Muay Thai Fighter" 
            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
          />
