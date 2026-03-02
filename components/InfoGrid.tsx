@@ -57,7 +57,7 @@ const InfoGrid: React.FC<InfoGridProps> = ({ onTestClick, content }) => {
 
          <div className="absolute inset-x-0 bottom-0 top-32 transition-transform duration-500 group-hover:scale-105">
             <img 
-              src={content?.['info_test_image'] || "https://picsum.photos/seed/thai_dancer_pink/600/800"} 
+              src={content?.['info_test_image'] || "/images/тестглавная.png"} 
               alt="Woman with lantern" 
               className="w-full h-full object-contain object-bottom"
             />
