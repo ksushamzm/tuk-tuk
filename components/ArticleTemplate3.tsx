@@ -68,8 +68,8 @@ const ArticleTemplate3: React.FC<Props> = ({ data }) => {
         </div>
         
         {/* Middle Yellow Section with Pattern */}
-        <div className="w-full h-[142px] md:h-full md:w-[9.86%] border-b-2 md:border-b-0 md:border-r-2 border-black">
-          <YellowSection />
+        <div className="w-full h-[76px] md:h-full md:w-[9.86%] border-b-2 md:border-b-0 md:border-r-2 border-black bg-thai-yellow flex items-center overflow-hidden">
+          <YellowSection vertical />
         </div>
 
         {/* Right Photo: 818px -> 56.81% */}

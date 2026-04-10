@@ -283,7 +283,7 @@ export const categoriesData: Record<string, CategoryData> = {
     id: 'единоборства',
     title: 'ЕДИНОБОРСТВА',
     templateId: 3,
-    starIcon: `${iconBase}Martial%20Art.png`,
+    starIcon: `${iconBase}Martial%20Arts.png`,
     blocks: [
       {
         id: 'muay_thai',
@@ -412,7 +412,7 @@ export const categoriesData: Record<string, CategoryData> = {
     id: 'инструменты',
     title: 'ИНСТРУМЕНТЫ',
     templateId: 2,
-    starIcon: `${iconBase}Instrument.png`,
+    starIcon: `${iconBase}Instruments.png`,
     blocks: [
       {
         id: 'sau',
@@ -755,7 +755,7 @@ export const categoriesData: Record<string, CategoryData> = {
   'народные промыслы': {
     id: 'народные промыслы',
     title: 'НАРОДНЫЕ ПРОМЫСЛЫ',
-    starIcon: `${iconBase}Folk%20Craft.png`,
+    starIcon: `${iconBase}Folk%20Crafts.png`,
     templateId: 2,
     blocks: [
       {
