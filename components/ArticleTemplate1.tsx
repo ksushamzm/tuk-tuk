@@ -68,8 +68,8 @@ const ArticleTemplate1: React.FC<Props> = ({ data }) => {
         </div>
         
         {/* Yellow Section with Pattern */}
-        <div className="w-full h-[142px] md:h-full md:w-[9.86%] border-b-2 md:border-b-0 md:border-r-2 border-black">
-          <YellowSection />
+        <div className="w-full h-[76px] md:h-full md:w-[9.86%] border-b-2 md:border-b-0 md:border-r-2 border-black bg-thai-yellow flex items-center overflow-hidden">
+          <YellowSection vertical />
         </div>
 
         <div className="w-full md:w-[56.81%] overflow-hidden h-[287px] md:h-full">
