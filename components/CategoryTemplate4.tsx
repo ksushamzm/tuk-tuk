@@ -73,7 +73,7 @@ const CategoryTemplate4: React.FC<Props> = ({ data }) => {
       </div>
 
       {/* Mobile Row 3: Yellow Section */}
-      <div className="md:hidden h-[76px] border-b-2 border-black overflow-hidden relative">
+      <div className="md:hidden h-[76px] border-b-2 border-black flex items-center overflow-hidden bg-thai-yellow">
         <YellowSection />
       </div>
 
@@ -196,8 +196,8 @@ const CategoryTemplate4: React.FC<Props> = ({ data }) => {
         </Link>
 
         {/* Middle Yellow Section */}
-        <div className="h-[76px] md:h-full md:w-[9.86%] border-b-2 md:border-b-0 md:border-r-2 border-black overflow-hidden relative">
-          <YellowSection />
+        <div className="h-[76px] md:h-full md:w-[9.86%] border-b-2 md:border-b-0 md:border-r-2 border-black overflow-hidden relative bg-thai-yellow">
+          <YellowSection vertical />
         </div>
 
         {/* Right: Mountain Block */}
