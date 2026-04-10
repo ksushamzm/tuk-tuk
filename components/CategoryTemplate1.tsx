@@ -51,9 +51,9 @@ const CategoryTemplate1: React.FC<Props> = ({ data }) => {
           <Star className="top-4 right-4" />
           <img src={blocks[0].image} className="w-full aspect-[4/3] object-cover" alt="" />
           <Link to={`/article/${blocks[0].id || data.id}`} className="block p-[14px] h-[68px] flex items-center justify-between border-t-2 border-black bg-white hover:bg-thai-yellow/10 transition-colors group cursor-pointer">
-            <p className="text-[12px] font-normal italic leading-tight uppercase">{fixHangingPrepositions(blocks[0].title)}</p>
+            <p className="text-[12px] font-normal italic leading-tight">{fixHangingPrepositions(blocks[0].title)}</p>
             <div className="group-hover:translate-x-2 transition-transform">
-               <ArrowIcon />
+              <ArrowIcon />
             </div>
           </Link>
         </div>
@@ -67,14 +67,14 @@ const CategoryTemplate1: React.FC<Props> = ({ data }) => {
             </div>
             <Link to={`/article/${blocks[0].id || data.id}`} className="block p-[1.25vw] min-h-[140px] md:h-[9.7vw] flex flex-col justify-center border-t-2 border-black bg-white hover:bg-thai-yellow/10 transition-colors group cursor-pointer">
               <div className="flex justify-between items-center">
-                <p className="text-[2.2vw] font-normal italic leading-tight max-w-[80%]">{fixHangingPrepositions(blocks[0].title)}</p>
+                <p className="text-[2.2vw] font-normal italic leading-tight max-w-[80%] uppercase">{fixHangingPrepositions(blocks[0].title)}</p>
                 <div className="group-hover:translate-x-2 transition-transform">
-                   <ArrowIcon />
+                  <ArrowIcon />
                 </div>
               </div>
             </Link>
           </div>
-          
+
           {/* Vertical Yellow Strip between columns (Width ~9.72%) */}
           <div className="md:w-[9.72%] border-r-2 border-black h-full overflow-hidden bg-thai-yellow">
             <YellowSection vertical />
@@ -106,16 +106,16 @@ const CategoryTemplate1: React.FC<Props> = ({ data }) => {
         <div className="w-1/2 border-r-2 border-black bg-white"></div>
         <Link to={`/article/${blocks[1].id || data.id}`} className="w-1/2 relative overflow-hidden flex flex-col justify-end group cursor-pointer hover:bg-thai-yellow/5 transition-colors">
           <Star className="top-2 right-2" />
-          <div className="absolute inset-0 flex items-end opacity-20">
+          <div className="absolute inset-0 flex items-end">
             <ThaiMountainPattern className="w-full h-auto" />
           </div>
           <div className="relative z-10 p-[14px] pb-8 flex flex-col items-center">
-             <p className="text-[14px] font-normal italic leading-tight text-center mb-4">
-               {fixHangingPrepositions(blocks[1].title)}
-             </p>
-             <div className="self-end mr-2 group-hover:translate-x-2 transition-transform">
-               <ArrowIcon />
-             </div>
+            <p className="text-[14px] font-normal italic leading-tight text-center mb-4">
+              {fixHangingPrepositions(blocks[1].title)}
+            </p>
+            <div className="self-end mr-2 group-hover:translate-x-2 transition-transform">
+              <ArrowIcon />
+            </div>
           </div>
         </Link>
       </div>
@@ -124,7 +124,7 @@ const CategoryTemplate1: React.FC<Props> = ({ data }) => {
       <div className="flex flex-col md:flex-row border-b-2 border-black relative md:h-[37.1vw]">
         {/* Desktop Shared Star */}
         <Star className="hidden md:block top-2 left-[66.53%] -translate-x-1/2 z-20" />
-        
+
         {/* Mobile Left 50% / Right 50% Structure for Row 2 */}
         <Link to={`/article/${blocks[2].id || data.id}`} className="flex h-[220px] md:h-full md:w-[66.53%] md:border-r-2 border-black group cursor-pointer hover:bg-thai-yellow/5 transition-colors bg-white">
           <div className="w-1/2 md:w-full p-[14px] md:p-[2vw] border-r-2 md:border-r-0 border-black flex flex-col justify-between relative h-full md:min-h-0">
@@ -156,30 +156,28 @@ const CategoryTemplate1: React.FC<Props> = ({ data }) => {
       </div>
 
       {/* Row 3: Buddhism (Hidden on Mobile) */}
-      <div className="hidden md:flex flex-col md:flex-row border-b-2 border-black relative md:h-[37.1vw]">
-        <div className="md:w-[33.47%] border-r-2 border-black relative overflow-hidden">
+      <div className="hidden md:flex flex-col lg:flex-row border-b-2 border-black relative md:h-[37.1vw]">
+        <div className="w-full lg:w-[33.47%] border-b-2 lg:border-b-0 lg:border-r-2 border-black relative overflow-hidden h-full">
           <Star className="top-6 right-6" />
           <div className="w-full h-full overflow-hidden">
             <img src={blocks[3].image} className="w-full h-full object-cover" alt="" />
           </div>
         </div>
-        <div className="md:w-[66.53%] p-[3vw] flex flex-col md:flex-row relative overflow-hidden bg-white">
-          <div className="md:w-1/2 flex flex-col justify-between relative">
-            <h2 className="text-[4vw] font-medium uppercase italic leading-[0.9] mb-6">
-              {fixHangingPrepositions(blocks[3].title).split(' ').map((word, i) => (
-                <React.Fragment key={i}>{word}<br /></React.Fragment>
-              ))}
+        <div className="w-full lg:w-[66.53%] p-[3vw] flex flex-col relative overflow-hidden bg-white">
+          <div className="w-full flex flex-col justify-start relative">
+            <h2 className="text-[5vw] lg:text-[4.5vw] font-medium uppercase italic leading-[0.8] break-words">
+              {fixHangingPrepositions(blocks[3].title)}
             </h2>
-            <div className="mt-auto">
+          </div>
+          <div className="w-full flex items-end justify-end relative flex-1 pt-[2vw]">
+            <div className="absolute bottom-0 left-0">
               <Star className="relative top-0 left-0 w-[8.7vw] h-[8.7vw]" />
             </div>
-          </div>
-          <div className="md:w-1/2 flex flex-col justify-center items-end relative pt-[10%]">
-            <Link to={`/article/${blocks[3].id || 'архитектура'}`} className="block w-full hover:bg-thai-yellow/10 transition-colors group cursor-pointer flex flex-col justify-between h-full">
-              <p className="text-[14px] md:text-[2vw] font-normal italic leading-[1.3] text-black w-full">
+            <Link to={`/article/${blocks[3].id || 'архитектура'}`} className="block w-full lg:w-1/2 hover:bg-thai-yellow/10 transition-colors group cursor-pointer flex flex-col justify-end pb-[1vw]">
+              <p className="text-[2.2vw] lg:text-[1.8vw] font-normal italic leading-[1.3] text-black w-full text-right mb-4">
                 {fixHangingPrepositions(blocks[3].text || '')}
               </p>
-              <div className="mt-auto pt-8 flex justify-end group-hover:translate-x-2 transition-transform">
+              <div className="flex justify-end group-hover:translate-x-2 transition-transform">
                 <ArrowIcon />
               </div>
             </Link>
@@ -193,8 +191,8 @@ const CategoryTemplate1: React.FC<Props> = ({ data }) => {
         <div className="md:hidden flex h-[304px] border-b-2 border-black">
           <Link to={`/article/${blocks[4].id || data.id}`} className="w-1/2 border-r-2 border-black relative p-[14px] bg-white flex flex-col justify-end group cursor-pointer hover:bg-thai-yellow/5 transition-colors">
             <Star className="top-2 right-2" />
-            <div className="absolute inset-0 flex items-end opacity-20">
-               <ThaiMountainPattern className="w-full h-auto" />
+            <div className="absolute inset-0 flex items-end">
+              <ThaiMountainPattern className="w-full h-auto" />
             </div>
             <div className="relative z-10 flex flex-col items-center">
               <p className="text-[14px] font-normal italic leading-tight text-center mb-4">
@@ -226,33 +224,33 @@ const CategoryTemplate1: React.FC<Props> = ({ data }) => {
             </div>
           </Link>
 
-          <div className="md:w-[66.53%] flex flex-col">
-            <div className="hidden md:flex md:h-[13.6vw] border-b-2 border-black overflow-hidden">
-               <OrangeSection />
+          <div className="md:w-[66.53%] flex flex-col h-full">
+            <div className="hidden md:flex md:h-[13.6vw] border-b-2 border-black overflow-hidden shrink-0">
+              <OrangeSection />
             </div>
-            <Link to={`/article/${blocks[5].id || data.id}`} className="p-[14px] md:p-[3vw] flex flex-1 flex-row relative bg-white min-h-[300px] group cursor-pointer hover:bg-thai-yellow/5 transition-colors">
-              <div className="w-1/2 flex flex-col justify-between md:mb-0">
-                <h2 className="text-[24px] md:text-[4vw] font-medium uppercase italic leading-[0.9] max-w-sm">
+            <Link to={`/article/${blocks[5].id || data.id}`} className="p-[14px] md:p-[3vw] flex flex-col flex-1 relative bg-white min-h-[180px] md:min-h-[350px] group cursor-pointer hover:bg-thai-yellow/5 transition-colors">
+              <div className="w-[60%] xl:w-1/2 flex flex-col justify-start">
+                <h2 className="text-[28px] md:text-[5vw] xl:text-[4vw] font-medium uppercase italic leading-[0.8] max-w-full">
                   {fixHangingPrepositions(blocks[5].title)}
                 </h2>
-                <div className="mt-auto">
-                    <Star className="relative top-4 md:top-auto left-0 md:absolute md:bottom-0" />
-                </div>
               </div>
-              <div className="w-1/2 flex flex-col justify-center items-end">
-                <p className="text-[12px] md:text-[2vw] font-normal italic leading-[1.3] text-black mb-4 w-full">
+              <div className="w-full md:w-1/2 md:self-end flex flex-col justify-start items-end md:items-end relative pt-[4vw] md:pt-[2vw]">
+                <p className="text-[14px] md:text-[2.2vw] xl:text-[1.8vw] font-normal italic leading-[1.3] text-black mb-4 w-1/2 md:w-full text-left md:text-right">
                   {fixHangingPrepositions(blocks[5].text || '')}
                 </p>
               </div>
+              <div className="absolute top-24 left-4 md:static md:mt-auto">
+                <Star className="relative md:top-auto left-0 md:absolute md:bottom-0" />
+              </div>
               {/* Фиксированная стрелка в углу */}
-              <div className="absolute bottom-4 right-4 md:bottom-[3vw] md:right-[3vw] group-hover:translate-x-2 transition-transform">
+              <div className="absolute bottom-24 right-4 md:bottom-[3vw] md:right-[3vw] group-hover:translate-x-2 transition-transform">
                 <ArrowIcon />
               </div>
             </Link>
           </div>
         </div>
       </div>
-      
+
       <GreenSection />
     </div>
   );
