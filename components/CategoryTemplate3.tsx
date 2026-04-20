@@ -149,7 +149,7 @@ const CategoryTemplate3: React.FC<Props> = ({ data }) => {
             <img src={blocks[1].image} className="w-full h-full object-cover" alt="" />
           </div>
         </div>
-        <Link to={`/article/${blocks[1].id || data.id}`} className="md:w-[66.53%] p-[14px] md:p-[3vw] flex flex-col md:flex-row relative overflow-hidden bg-white hover:bg-thai-yellow/5 transition-colors group cursor-pointer">
+        <Link to={`/article/${blocks[1].id || data.id}`} className="md:w-[75%] p-[14px] md:p-[3vw] flex flex-col md:flex-row relative overflow-hidden bg-white hover:bg-thai-yellow/5 transition-colors group cursor-pointer">
           <div className="md:w-1/2 flex flex-col justify-between relative pb-4 md:pb-0">
             <h2 className="text-[24px] md:text-[4vw] font-medium uppercase italic leading-[0.9] mb-4 md:mb-6 pr-4">
               {fixHangingPrepositions(blocks[1].title).split(' ').map((word, i) => (

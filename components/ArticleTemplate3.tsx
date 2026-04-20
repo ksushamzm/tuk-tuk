@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { ArticleLayoutData } from '../data/articlesData';
 import { categoriesData } from '../data/categoriesData';
 import ThaiPatternVertical from './ThaiPatternVertical';
@@ -18,9 +19,24 @@ const ArticleTemplate3: React.FC<Props> = ({ data }) => {
     return text.replace(/\b(в|и|к|о|с|у|а|от|из|за|по|на|до|об|со|во|ко|но|бы|ли|же|да)\s+/gi, '$1\u00A0');
   };
 
+  const ArrowIcon = () => (
+    <svg viewBox="0 0 42 16" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-[24px] md:w-[3.5vw] h-auto rotate-180">
+      <path d="M41.7071 8.70711C42.0976 8.31658 42.0976 7.68342 41.7071 7.29289L35.3431 0.928932C34.9526 0.538408 34.3195 0.538408 33.9289 0.928932C33.5384 1.31946 33.5384 1.95262 33.9289 2.34315L39.5858 8L33.9289 13.6569C33.5384 14.0474 33.5384 14.6805 33.9289 15.0711C34.3195 15.4616 34.9526 15.4616 35.3431 15.0711L41.7071 8.70711ZM0 9H41V7H0V9Z" fill="black" />
+    </svg>
+  );
+
   return (
     <div className="w-full bg-white font-roboto overflow-hidden">
       
+      {/* Back to Category Button */}
+      <Link 
+        to={`/category/${data.categoryId}`}
+        className="flex items-center gap-4 p-[14px] md:p-[2vw] border-b-2 border-black hover:bg-thai-yellow/10 transition-colors group"
+      >
+        <ArrowIcon />
+        <span className="text-[18px] md:text-[2.2vw] font-normal italic">К категории</span>
+      </Link>
+
       {/* Article Header */}
       <div className="flex border-b-2 border-black min-h-[80px] relative bg-white">
         <div className="w-[85%] md:w-[80%] flex items-center p-[14px] md:p-[2vw] relative z-20">
