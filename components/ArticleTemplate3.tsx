@@ -27,15 +27,8 @@ const ArticleTemplate3: React.FC<Props> = ({ data }) => {
 
   return (
     <div className="w-full bg-white font-roboto overflow-hidden">
-      
-      {/* Back to Category Button */}
-      <Link 
-        to={`/category/${data.categoryId}`}
-        className="flex items-center gap-4 p-[14px] md:p-[2vw] border-b-2 border-black hover:bg-thai-yellow/10 transition-colors group"
-      >
-        <ArrowIcon />
-        <span className="text-[18px] md:text-[2.2vw] font-normal italic">К категории</span>
-      </Link>
+
+
 
       {/* Article Header */}
       <div className="flex border-b-2 border-black min-h-[80px] relative bg-white">
@@ -45,10 +38,10 @@ const ArticleTemplate3: React.FC<Props> = ({ data }) => {
           </h1>
         </div>
         <div className="w-[15%] md:w-[20%] relative flex justify-end items-center md:pr-8 border-l-2 md:border-l-0 border-transparent">
-          <img 
-            src={starIcon || 'https://mioaqpjjpsfkzwbg.public.blob.vercel-storage.com/icon/Buddhism.png'} 
-            alt="Category Star" 
-            className="absolute right-4 md:right-[3vw] bottom-0 translate-y-1/2 w-[80px] md:w-[130px] object-contain drop-shadow-md z-30 pointer-events-none" 
+          <img
+            src={starIcon || 'https://mioaqpjjpsfkzwbg.public.blob.vercel-storage.com/icon/Buddhism.png'}
+            alt="Category Star"
+            className="absolute right-4 md:right-[3vw] bottom-0 translate-y-1/2 w-[80px] md:w-[130px] object-contain drop-shadow-md z-30 pointer-events-none"
           />
         </div>
       </div>
@@ -82,7 +75,7 @@ const ArticleTemplate3: React.FC<Props> = ({ data }) => {
         <div className="w-full md:w-[33.19%] border-b-2 md:border-b-0 md:border-r-2 border-black overflow-hidden h-[488px] md:h-full">
           <img src={data.blocks.image1} className="w-full h-full object-cover" alt="" />
         </div>
-        
+
         {/* Middle Yellow Section with Pattern */}
         <div className="w-full h-[76px] md:h-full md:w-[9.86%] border-b-2 md:border-b-0 md:border-r-2 border-black bg-thai-yellow flex items-center overflow-hidden">
           <YellowSection vertical />

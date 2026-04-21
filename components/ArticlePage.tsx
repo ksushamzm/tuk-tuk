@@ -34,18 +34,7 @@ const ArticlePage: React.FC = () => {
 
   return (
     <div className="w-full bg-white min-h-screen flex flex-col">
-      {/* Top Navigation for Article */}
-      <div className="p-[14px] md:p-6 border-b-2 border-black flex justify-between items-center bg-white sticky top-0 z-50">
-        <Link 
-          to={`/category/${data.categoryId}`} 
-          className="inline-flex items-center gap-2 text-[14px] md:text-[20px] font-bold hover:text-thai-magenta transition-colors italic"
-        >
-          <ArrowLeft size={20} /> К категории
-        </Link>
-        <span className="font-black italic uppercase text-[14px] md:text-xl text-right ml-4">
-          {category?.title || data.categoryId}
-        </span>
-      </div>
+
 
       {/* Render the proper template based on templateId */}
       {data.templateId === 1 && <ArticleTemplate1 data={data} />}
