@@ -1,8 +1,6 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { ArticleLayoutData } from '../data/articlesData';
 import { categoriesData } from '../data/categoriesData';
-import ThaiPatternVertical from './ThaiPatternVertical';
 import GreenSection from './GreenSection';
 import YellowSection from './YellowSection';
 
