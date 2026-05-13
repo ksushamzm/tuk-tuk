@@ -52,7 +52,7 @@ async function startServer() {
   // Get single article with blocks
   app.get('/api/articles/:slug', (req, res) => {
     try {
-      const article = db.prepare('SELECT * FROM articles WHERE slug = ?').get(req.params.slug);
+      const article = db.prepare('SELECT * FROM articles WHERE slug = ?').get(req.params.slug) as { id: number; [key: string]: unknown } | undefined;
       if (!article) return res.status(404).json({ error: 'Article not found' });
       
       const blocks = db.prepare('SELECT * FROM blocks WHERE articleId = ? ORDER BY orderIndex ASC').all(article.id);
@@ -154,8 +154,8 @@ async function startServer() {
   // Get site content
   app.get('/api/content', (req, res) => {
     try {
-      const content = db.prepare('SELECT * FROM site_content').all();
-      const contentMap = content.reduce((acc, item) => {
+      const content = db.prepare('SELECT * FROM site_content').all() as { key: string; value: string }[];
+      const contentMap = content.reduce((acc: Record<string, string>, item) => {
         acc[item.key] = item.value;
         return acc;
       }, {});
@@ -219,6 +219,100 @@ async function startServer() {
     } catch (error) {
       console.error('Error updating test questions:', error);
       res.status(500).json({ error: 'Failed to update test questions' });
+    }
+  });
+
+  // ===== Template Articles API =====
+
+  // Get all template articles
+  app.get('/api/template-articles', (req, res) => {
+    try {
+      const articles = db.prepare('SELECT * FROM template_articles ORDER BY createdAt DESC').all();
+      const parsed = (articles as any[]).map((a: any) => ({
+        ...a,
+        section1Text: JSON.parse(a.section1Text || '[]'),
+        section2Text: JSON.parse(a.section2Text || '[]'),
+      }));
+      res.json(parsed);
+    } catch (error) {
+      console.error('Error fetching template articles:', error);
+      res.status(500).json({ error: 'Failed to fetch template articles' });
+    }
+  });
+
+  // Get single template article
+  app.get('/api/template-articles/:id', (req, res) => {
+    try {
+      const article = db.prepare('SELECT * FROM template_articles WHERE id = ?').get(req.params.id) as any;
+      if (!article) return res.status(404).json({ error: 'Article not found' });
+      res.json({
+        ...article,
+        section1Text: JSON.parse(article.section1Text || '[]'),
+        section2Text: JSON.parse(article.section2Text || '[]'),
+      });
+    } catch (error) {
+      res.status(500).json({ error: 'Failed to fetch article' });
+    }
+  });
+
+  // Create template article
+  app.post('/api/template-articles', (req, res) => {
+    const { id, categoryId, templateId, title, section1Title, section1Text, image1, image2, section2Title, section2Text } = req.body;
+    try {
+      if (!id || !title || !categoryId) {
+        return res.status(400).json({ error: 'ID, title, and categoryId are required' });
+      }
+      const existing = db.prepare('SELECT id FROM template_articles WHERE id = ?').get(id);
+      if (existing) {
+        return res.status(400).json({ error: 'Article with this ID already exists' });
+      }
+      db.prepare(`
+        INSERT INTO template_articles (id, categoryId, templateId, title, section1Title, section1Text, image1, image2, section2Title, section2Text)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      `).run(
+        id, categoryId, templateId || 1, title,
+        section1Title || '', JSON.stringify(section1Text || []),
+        image1 || '', image2 || '',
+        section2Title || '', JSON.stringify(section2Text || [])
+      );
+      res.json({ id, message: 'Article created successfully' });
+    } catch (error) {
+      console.error('Error creating template article:', error);
+      res.status(500).json({ error: 'Failed to create article', details: error instanceof Error ? error.message : String(error) });
+    }
+  });
+
+  // Update template article
+  app.put('/api/template-articles/:id', (req, res) => {
+    const originalId = req.params.id;
+    const { id, categoryId, templateId, title, section1Title, section1Text, image1, image2, section2Title, section2Text } = req.body;
+    try {
+      db.prepare(`
+        UPDATE template_articles
+        SET id = ?, categoryId = ?, templateId = ?, title = ?, section1Title = ?, section1Text = ?, image1 = ?, image2 = ?, section2Title = ?, section2Text = ?, updatedAt = CURRENT_TIMESTAMP
+        WHERE id = ?
+      `).run(
+        id || originalId, categoryId || '', templateId || 1, title || '',
+        section1Title || '', JSON.stringify(section1Text || []),
+        image1 || '', image2 || '',
+        section2Title || '', JSON.stringify(section2Text || []),
+        originalId
+      );
+      res.json({ message: 'Article updated successfully' });
+    } catch (error) {
+      console.error('Error updating template article:', error);
+      res.status(500).json({ error: 'Failed to update article', details: error instanceof Error ? error.message : String(error) });
+    }
+  });
+
+  // Delete template article
+  app.delete('/api/template-articles/:id', (req, res) => {
+    try {
+      db.prepare('DELETE FROM template_articles WHERE id = ?').run(req.params.id);
+      res.json({ message: 'Article deleted successfully' });
+    } catch (error) {
+      console.error('Error deleting template article:', error);
+      res.status(500).json({ error: 'Failed to delete article' });
     }
   });
 

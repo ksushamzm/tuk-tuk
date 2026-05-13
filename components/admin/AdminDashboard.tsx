@@ -6,7 +6,7 @@ const AdminDashboard: React.FC = () => {
   const [stats, setStats] = useState({ articles: 0 });
 
   useEffect(() => {
-    fetch('/api/articles')
+    fetch('/api/template-articles')
       .then(res => res.json())
       .then(data => {
         setStats({ articles: data.length });

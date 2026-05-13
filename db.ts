@@ -1,6 +1,7 @@
 import Database from 'better-sqlite3';
 import path from 'path';
 import fs from 'fs';
+import { articlesData } from './data/articlesData.js';
 
 const dbPath = path.resolve(process.cwd(), 'database.sqlite');
 const db = new Database(dbPath);
@@ -25,6 +26,21 @@ db.exec(`
     content TEXT NOT NULL,
     orderIndex INTEGER NOT NULL,
     FOREIGN KEY (articleId) REFERENCES articles (id) ON DELETE CASCADE
+  );
+
+  CREATE TABLE IF NOT EXISTS template_articles (
+    id TEXT PRIMARY KEY,
+    categoryId TEXT NOT NULL,
+    templateId INTEGER NOT NULL DEFAULT 1,
+    title TEXT NOT NULL,
+    section1Title TEXT,
+    section1Text TEXT NOT NULL DEFAULT '[]',
+    image1 TEXT,
+    image2 TEXT,
+    section2Title TEXT,
+    section2Text TEXT NOT NULL DEFAULT '[]',
+    createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP
   );
 
   CREATE TABLE IF NOT EXISTS site_content (
@@ -117,5 +133,22 @@ if (testCount.count === 0) {
   });
   insertManyQuestions(initialQuestions);
 }
+
+// Seed template_articles from articlesData (INSERT OR IGNORE preserves admin edits)
+const insertTemplateArticle = db.prepare(`
+  INSERT OR IGNORE INTO template_articles (id, categoryId, templateId, title, section1Title, section1Text, image1, image2, section2Title, section2Text)
+  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+`);
+const seedArticles = db.transaction(() => {
+  for (const [key, a] of Object.entries(articlesData) as any[]) {
+    insertTemplateArticle.run(
+      a.id, a.categoryId, a.templateId, a.title,
+      a.blocks.section1Title || '', JSON.stringify(a.blocks.section1Text || []),
+      a.blocks.image1 || '', a.blocks.image2 || '',
+      a.blocks.section2Title || '', JSON.stringify(a.blocks.section2Text || [])
+    );
+  }
+});
+seedArticles();
 
 export default db;

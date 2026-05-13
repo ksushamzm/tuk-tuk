@@ -80,7 +80,7 @@ const CategoryTemplate1: React.FC<Props> = ({ data }) => {
             <YellowSection vertical />
           </div>
 
-          <Link to={`/article/${blocks[1].id || data.id}`} className="md:w-[29.01%] flex flex-col relative bg-white group cursor-pointer hover:bg-thai-yellow/5 transition-colors">
+          <div className="md:w-[29.01%] flex flex-col relative bg-white transition-colors">
             <div className="flex-1 relative border-black overflow-hidden flex flex-col">
               <Star className="top-6 right-6" />
               <div className="absolute inset-x-0 bottom-0 flex items-end">
@@ -97,14 +97,14 @@ const CategoryTemplate1: React.FC<Props> = ({ data }) => {
                 </div>
               </div>
             </div>
-          </Link>
+          </div>
         </div>
       </div>
 
       {/* Row 1.5 Mobile: Empty Left / Top-5 Right (304px) */}
       <div className="md:hidden flex h-[304px] border-b-2 border-black">
         <div className="w-1/2 border-r-2 border-black bg-white"></div>
-        <Link to={`/article/${blocks[1].id || data.id}`} className="w-1/2 relative overflow-hidden flex flex-col justify-end group cursor-pointer hover:bg-thai-yellow/5 transition-colors">
+        <div className="w-1/2 relative overflow-hidden flex flex-col justify-end transition-colors">
           <Star className="top-2 right-2" />
           <div className="absolute inset-0 flex items-end">
             <ThaiMountainPattern className="w-full h-auto" />
@@ -117,7 +117,7 @@ const CategoryTemplate1: React.FC<Props> = ({ data }) => {
               <ArrowIcon />
             </div>
           </div>
-        </Link>
+        </div>
       </div>
 
       {/* Row 2: TEST Block & Image */}
@@ -126,7 +126,7 @@ const CategoryTemplate1: React.FC<Props> = ({ data }) => {
         <Star className="hidden md:block top-2 left-[66.53%] -translate-x-1/2 z-20" />
 
         {/* Mobile Left 50% / Right 50% Structure for Row 2 */}
-        <Link to={`/article/${blocks[2].id || data.id}`} className="flex h-[220px] md:h-full md:w-[66.53%] md:border-r-2 border-black group cursor-pointer hover:bg-thai-yellow/5 transition-colors bg-white">
+        <div className="flex h-[220px] md:h-full md:w-[66.53%] md:border-r-2 border-black transition-colors bg-white">
           <div className="w-1/2 md:w-full p-[14px] md:p-[2vw] border-r-2 md:border-r-0 border-black flex flex-col justify-between relative h-full md:min-h-0">
             <Star className="top-2 right-2 md:hidden" />
             <div className="flex flex-col scale-50 md:scale-100 origin-left">
@@ -147,7 +147,7 @@ const CategoryTemplate1: React.FC<Props> = ({ data }) => {
           <div className="w-1/2 md:hidden">
             <img src={blocks[2].image || "https://picsum.photos/seed/thai2/600/600"} className="w-full h-full object-cover" alt="" />
           </div>
-        </Link>
+        </div>
 
         {/* Desktop-only Image block */}
         <div className="hidden md:block md:w-[33.47%] w-full h-full overflow-hidden relative">
@@ -173,14 +173,14 @@ const CategoryTemplate1: React.FC<Props> = ({ data }) => {
             <div className="absolute bottom-0 left-0">
               <Star className="relative top-0 left-0 w-[8.7vw] h-[8.7vw]" />
             </div>
-            <Link to={`/article/${blocks[3].id || 'архитектура'}`} className="block w-full lg:w-1/2 hover:bg-thai-yellow/10 transition-colors group cursor-pointer flex flex-col justify-end pb-[1vw]">
+            <div className="block w-full lg:w-1/2 transition-colors flex flex-col justify-end pb-[1vw]">
               <p className="text-[2.2vw] lg:text-[1.8vw] font-normal italic leading-[1.3] text-black w-full text-right mb-4">
                 {fixHangingPrepositions(blocks[3].text || '')}
               </p>
-              <div className="flex justify-end group-hover:translate-x-2 transition-transform">
+              <div className="flex justify-end transition-transform">
                 <ArrowIcon />
               </div>
-            </Link>
+            </div>
           </div>
         </div>
       </div>
@@ -189,7 +189,7 @@ const CategoryTemplate1: React.FC<Props> = ({ data }) => {
       <div className="flex flex-col border-b-2 border-black overflow-hidden bg-white">
         {/* Mobile Row 4 part 1: Why Gold Left / Empty Right */}
         <div className="md:hidden flex h-[304px] border-b-2 border-black">
-          <Link to={`/article/${blocks[4].id || data.id}`} className="w-1/2 border-r-2 border-black relative p-[14px] bg-white flex flex-col justify-end group cursor-pointer hover:bg-thai-yellow/5 transition-colors">
+          <div className="w-1/2 border-r-2 border-black relative p-[14px] bg-white flex flex-col justify-end transition-colors">
             <Star className="top-2 right-2" />
             <div className="absolute inset-0 flex items-end">
               <ThaiMountainPattern className="w-full h-auto" />
@@ -198,16 +198,16 @@ const CategoryTemplate1: React.FC<Props> = ({ data }) => {
               <p className="text-[14px] font-normal italic leading-tight text-center mb-4">
                 {fixHangingPrepositions(blocks[4].title)}
               </p>
-              <div className="self-end mr-2 group-hover:translate-x-2 transition-transform"><ArrowIcon /></div>
+              <div className="self-end mr-2 transition-transform"><ArrowIcon /></div>
             </div>
-          </Link>
+          </div>
           <div className="w-1/2 bg-white"></div>
         </div>
 
         {/* Architects Block (Shared for both) */}
         <div className="flex flex-col md:flex-row md:h-[50.8vw]">
           {/* Desktop-only Gold Block */}
-          <Link to={`/article/${blocks[4].id || data.id}`} className="hidden md:flex md:w-[33.47%] border-r-2 border-black flex flex-col relative overflow-hidden bg-white group cursor-pointer hover:bg-thai-yellow/5 transition-colors">
+          <div className="hidden md:flex md:w-[33.47%] border-r-2 border-black flex flex-col relative overflow-hidden bg-white transition-colors">
             <Star className="top-6 right-6" />
             <div className="flex-1 relative flex flex-col justify-end">
               <div className="absolute inset-x-0 bottom-0 flex items-end">
@@ -217,18 +217,18 @@ const CategoryTemplate1: React.FC<Props> = ({ data }) => {
                 <p className="text-[2.2vw] font-normal italic leading-tight text-center max-w-[85%] -translate-y-4">
                   {fixHangingPrepositions(blocks[4].title)}
                 </p>
-                <div className="absolute bottom-4 right-4 translate-y-[-50%] group-hover:translate-x-2 transition-transform">
+                <div className="absolute bottom-4 right-4 translate-y-[-50%] transition-transform">
                   <ArrowIcon />
                 </div>
               </div>
             </div>
-          </Link>
+          </div>
 
           <div className="md:w-[66.53%] flex flex-col h-full">
             <div className="hidden md:flex md:h-[13.6vw] border-b-2 border-black overflow-hidden shrink-0">
               <OrangeSection />
             </div>
-            <Link to={`/article/${blocks[5].id || data.id}`} className="p-[14px] md:p-[3vw] flex flex-col flex-1 relative bg-white min-h-[180px] md:min-h-[350px] group cursor-pointer hover:bg-thai-yellow/5 transition-colors">
+            <div className="p-[14px] md:p-[3vw] flex flex-col flex-1 relative bg-white min-h-[180px] md:min-h-[350px] transition-colors">
               <div className="w-[60%] xl:w-1/2 flex flex-col justify-start">
                 <h2 className="text-[28px] md:text-[5vw] xl:text-[4vw] font-medium uppercase italic leading-[0.8] max-w-full">
                   {fixHangingPrepositions(blocks[5].title)}
@@ -242,11 +242,10 @@ const CategoryTemplate1: React.FC<Props> = ({ data }) => {
               <div className="absolute top-24 left-4 md:static md:mt-auto">
                 <Star className="relative md:top-auto left-0 md:absolute md:bottom-0" />
               </div>
-              {/* Фиксированная стрелка в углу */}
-              <div className="absolute bottom-24 right-4 md:bottom-[3vw] md:right-[3vw] group-hover:translate-x-2 transition-transform">
+              <div className="absolute bottom-24 right-4 md:bottom-[3vw] md:right-[3vw] transition-transform">
                 <ArrowIcon />
               </div>
-            </Link>
+            </div>
           </div>
         </div>
       </div>
