@@ -4,6 +4,13 @@ import fs from 'fs';
 import { articlesData } from './data/articlesData.js';
 
 const dbPath = path.resolve(process.cwd(), 'database.sqlite');
+
+// Check if we need to reset the database (via environment variable)
+if (process.env.RESET_DB === 'true' && fs.existsSync(dbPath)) {
+  console.log('🔄 Resetting database...');
+  fs.unlinkSync(dbPath);
+}
+
 const db = new Database(dbPath);
 
 // Initialize tables
@@ -61,27 +68,27 @@ db.exec(`
 const initialContent = {
   'hero_title': 'МЕДИА-ЖУРНАЛ О КУЛЬТУРЕ ТАИЛАНДА',
   'hero_link_text': 'От храмов до небоскрёбов: архитектура Таиланда',
-  'hero_image': 'https://picsum.photos/seed/thai_temple_hero/1200/800',
+  'hero_image': '/images/right1.png',
   'about_text_1': 'Представьте, что вы садитесь на яркий, украшенный огоньками тук-тук. Заводится мотор, ветерок освежает лицо, и начинается путешествие — не по шумным туристическим улицам, а по неизведанным тропам культурного Таиланда.',
   'about_text_2': 'Добро пожаловать в TukTuk Media — ваш медиа-журнал, который станет таким же аутентичным, быстрым и полным открытий транспортом в мир удивительной страны.',
   'about_text_3': 'Мы не просто рассказываем, мы погружаем. Наши статьи — это звук шелеста монашеских одежд в древнем храме Ват Пхра Сингх и гулкая тишина пещеры в Нанга. Это запах карри «пананг», томящегося на глиняной печи в семейной лавке Чиангмая, и терпкий аромат краски на только что созданной стрит-арт картине в бангкокском переулке.',
   'muay_thai_title': 'ТАЙСКИЙ БОКС',
   'muay_thai_text': 'Интервью с выдающейся тайской боксершей, которая достигла значительных успехов в мире муай тай. Мы расскажем о её пути в спорт, начиная с раннего возраста, когда она впервые познакомилась с боевыми искусствами.',
-  'muay_thai_image': 'https://picsum.photos/seed/muay_thai_fighter/800/1000',
+  'muay_thai_image': '/images/боксерша.jpg',
   'category_1_title': 'САМЫЕ ПОПУЛЯРНЫЕ ТРАДИЦИОННЫЕ ТАЙСКИЕ НАРЯДЫ',
-  'category_1_image': 'https://picsum.photos/seed/tuk_tuk_v2/600/900',
-  'category_1_description': 'Узнайте всё о легендарных тук-туках и других колоритных способах передвижения по Таиланду.',
-  'category_2_title': 'БУДДИЗМ',
-  'category_2_image': 'https://picsum.photos/seed/buddha_gold/600/900',
-  'category_2_description': 'Откройте для себя духовные практики, традиции и священные места буддизма — сердца тайской культуры.',
-  'category_3_title': 'АРХИТЕКТУРА',
-  'category_3_image': 'https://picsum.photos/seed/thai_temple_roof/600/900',
-  'category_3_description': 'От древних ватов с золотыми шпилями до небоскрёбов Бангкока — архитектурное богатство страны.',
-  'info_test_image': 'https://picsum.photos/seed/thai_dancer_pink/600/800',
-  'home_blocks': JSON.stringify(['Hero', 'RecentArticles', 'CategoryGrid', 'PinkSection', 'BlueSection', 'InfoGrid', 'MuayThai', 'GreenSection']),
+  'category_1_image': 'https://mioaqpjjpsfkzwbg.public.blob.vercel-storage.com/img/Ethics_1.jpg',
+  'category_1_description': 'В Таиланде особенно важна культура...',
+  'category_2_title': 'ТРАДИЦИОННЫЕ ЭЛЕМЕНТЫ В ХРАМОВЫХ КОМПЛЕКСАХ',
+  'category_2_image': 'https://mioaqpjjpsfkzwbg.public.blob.vercel-storage.com/categories.jpg',
+  'category_2_description': 'В тайских храмовых комплексах...',
+  'category_3_title': 'КАКИЕ ПРОЦЕДУРЫ СТОИТ ПОСЕТИТЬ ИМЕННО ВАМ?',
+  'category_3_image': 'https://mioaqpjjpsfkzwbg.public.blob.vercel-storage.com/img/Ayurveda_1.jpg',
+  'category_3_description': 'Аюрведа очень популярна в Таиланде...',
+  'info_test_image': '/images/тестглавная.png',
+  'home_blocks': JSON.stringify(['Hero', 'RecentArticles', 'CategoryGrid', 'BlueSection', 'InfoGrid', 'MuayThai', 'GreenSection']),
 };
 
-const insertContent = db.prepare('INSERT OR IGNORE INTO site_content (key, value) VALUES (?, ?)');
+const insertContent = db.prepare('INSERT OR REPLACE INTO site_content (key, value) VALUES (?, ?)');
 const insertMany = db.transaction((content) => {
   for (const [key, value] of Object.entries(content)) {
     insertContent.run(key, value);
@@ -89,34 +96,15 @@ const insertMany = db.transaction((content) => {
 });
 insertMany(initialContent);
 
-// Migrate category card content to article-based titles and descriptions
-const categoryUpdates: Record<string, string> = {
-  'category_1_title': 'САМЫЕ ПОПУЛЯРНЫЕ ТРАДИЦИОННЫЕ ТАЙСКИЕ НАРЯДЫ',
-  'category_1_description': 'В Таиланде особенно важна культура традиционной одежды. Тайский национальный костюм Чут Тай отражает многовековое художественное и историческое наследие нации.',
-  'category_2_title': 'ТРАДИЦИОННЫЕ ЭЛЕМЕНТЫ В ХРАМОВЫХ КОМПЛЕКСАХ',
-  'category_2_description': 'В тайских храмовых комплексах скрыты тысячелетия истории и символики. Узнайте, что означает каждый элемент священной архитектуры.',
-  'category_3_title': 'КАКИЕ ПРОЦЕДУРЫ СТОИТ ПОСЕТИТЬ ИМЕННО ВАМ?',
-  'category_3_description': 'Аюрведа очень популярна в Таиланде и оказала большое влияние на традиционную медицину страны. Тайский массаж, травяные компрессы и древние рецепты ждут вас.',
-};
-for (const [key, value] of Object.entries(categoryUpdates)) {
-  db.prepare('UPDATE OR IGNORE site_content SET value = ? WHERE key = ?').run(value, key);
-}
-
-// Ensure PinkSection is in home_blocks (migrate existing DB records)
-const homeBlocksRow = db.prepare("SELECT value FROM site_content WHERE key = 'home_blocks'").get() as { value: string } | undefined;
-if (homeBlocksRow) {
-  const blocks: string[] = JSON.parse(homeBlocksRow.value);
-  if (!blocks.includes('PinkSection')) {
-    const idx = blocks.indexOf('BlueSection');
-    if (idx !== -1) {
-      blocks.splice(idx, 0, 'PinkSection');
-    } else {
-      const catIdx = blocks.indexOf('CategoryGrid');
-      if (catIdx !== -1) blocks.splice(catIdx + 1, 0, 'PinkSection');
-    }
-    db.prepare("UPDATE site_content SET value = ? WHERE key = 'home_blocks'").run(JSON.stringify(blocks));
-  }
-}
+// Force update for specific keys (migration)
+const updateContent = db.prepare('UPDATE site_content SET value = ? WHERE key = ?');
+updateContent.run('/images/right1.png', 'hero_image');
+updateContent.run('/images/тестглавная.png', 'info_test_image');
+updateContent.run('/images/боксерша.jpg', 'muay_thai_image');
+updateContent.run('https://mioaqpjjpsfkzwbg.public.blob.vercel-storage.com/img/Ethics_1.jpg', 'category_1_image');
+updateContent.run('https://mioaqpjjpsfkzwbg.public.blob.vercel-storage.com/categories.jpg', 'category_2_image');
+updateContent.run('https://mioaqpjjpsfkzwbg.public.blob.vercel-storage.com/img/Ayurveda_1.jpg', 'category_3_image');
+updateContent.run(JSON.stringify(['Hero', 'RecentArticles', 'CategoryGrid', 'BlueSection', 'InfoGrid', 'MuayThai', 'GreenSection']), 'home_blocks');
 
 // Seed initial test questions if empty
 const testCount = db.prepare('SELECT COUNT(*) as count FROM test_questions').get() as { count: number };
@@ -166,23 +154,28 @@ if (testCount.count === 0) {
   insertManyQuestions(initialQuestions);
 }
 
-// Seed template_articles from articlesData (INSERT OR IGNORE preserves admin edits)
-const insertTemplateArticle = db.prepare(`
-  INSERT OR IGNORE INTO template_articles (id, categoryId, templateId, title, section1Title, section1Text, image1, image2, section2Title, section2Text)
-  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-`);
-const seedArticles = db.transaction(() => {
-  for (const [key, a] of Object.entries(articlesData) as any[]) {
-    insertTemplateArticle.run(
-      a.id, a.categoryId, a.templateId, a.title,
-      a.blocks.section1Title || '', JSON.stringify(a.blocks.section1Text || []),
-      a.blocks.image1 || '', a.blocks.image2 || '',
-      a.blocks.section2Title || '', JSON.stringify(a.blocks.section2Text || [])
-    );
-  }
-});
-seedArticles();
-
+// Seed template_articles from articlesData only if table is empty
+const templateArticlesCount = db.prepare('SELECT COUNT(*) as count FROM template_articles').get() as { count: number };
+if (templateArticlesCount.count === 0) {
+  const insertTemplateArticle = db.prepare(`
+    INSERT INTO template_articles (id, categoryId, templateId, title, section1Title, section1Text, image1, image2, section2Title, section2Text)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+  `);
+  const seedArticles = db.transaction(() => {
+    for (const [key, a] of Object.entries(articlesData) as any[]) {
+      insertTemplateArticle.run(
+        a.id, a.categoryId, a.templateId, a.title,
+        a.blocks.section1Title || '', JSON.stringify(a.blocks.section1Text || []),
+        a.blocks.image1 || '', a.blocks.image2 || '',
+        a.blocks.section2Title || '', JSON.stringify(a.blocks.section2Text || [])
+      );
+    }
+  });
+  seedArticles();
+  console.log(`✅ Seeded ${Object.keys(articlesData).length} template articles`);
+} else {
+  console.log(`ℹ️  Template articles already exist (${templateArticlesCount.count} articles), skipping seed`);
+}
 // Seed articles table with 3 default articles if empty
 const articleCount = db.prepare('SELECT COUNT(*) as count FROM articles').get() as { count: number };
 if (articleCount.count === 0) {
