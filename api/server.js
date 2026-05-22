@@ -1,4 +1,3 @@
-import type { VercelRequest, VercelResponse } from '@vercel/node';
 import express from 'express';
 import db from '../db.js';
 
@@ -11,7 +10,7 @@ app.use(express.urlencoded({ limit: '50mb', extended: true }));
 app.get('/api/test-questions', (req, res) => {
   try {
     const questions = db.prepare('SELECT * FROM test_questions ORDER BY orderIndex ASC').all();
-    const parsedQuestions = questions.map((q: any) => ({
+    const parsedQuestions = questions.map((q) => ({
       ...q,
       options: JSON.parse(q.options)
     }));
@@ -25,8 +24,8 @@ app.get('/api/test-questions', (req, res) => {
 // Get site content
 app.get('/api/content', (req, res) => {
   try {
-    const content = db.prepare('SELECT * FROM site_content').all() as { key: string; value: string }[];
-    const contentMap = content.reduce((acc: Record<string, string>, item) => {
+    const content = db.prepare('SELECT * FROM site_content').all();
+    const contentMap = content.reduce((acc, item) => {
       acc[item.key] = item.value;
       return acc;
     }, {});
@@ -61,7 +60,7 @@ app.put('/api/content', (req, res) => {
 app.get('/api/template-articles', (req, res) => {
   try {
     const articles = db.prepare('SELECT * FROM template_articles ORDER BY createdAt DESC').all();
-    const parsed = (articles as any[]).map((a: any) => ({
+    const parsed = articles.map((a) => ({
       ...a,
       section1Text: JSON.parse(a.section1Text || '[]'),
       section2Text: JSON.parse(a.section2Text || '[]'),
@@ -76,7 +75,7 @@ app.get('/api/template-articles', (req, res) => {
 // Get single template article
 app.get('/api/template-articles/:id', (req, res) => {
   try {
-    const article = db.prepare('SELECT * FROM template_articles WHERE id = ?').get(req.params.id) as any;
+    const article = db.prepare('SELECT * FROM template_articles WHERE id = ?').get(req.params.id);
     if (!article) return res.status(404).json({ error: 'Article not found' });
     res.json({
       ...article,
@@ -96,7 +95,7 @@ app.put('/api/test-questions', (req, res) => {
     const insertQuestion = db.prepare('INSERT INTO test_questions (question, options, correctId, explanation, orderIndex) VALUES (?, ?, ?, ?, ?)');
     
     const insertMany = db.transaction((qs) => {
-      qs.forEach((q: any, i: number) => {
+      qs.forEach((q, i) => {
         insertQuestion.run(q.question, JSON.stringify(q.options), q.correctId, q.explanation, i);
       });
     });
@@ -110,6 +109,6 @@ app.put('/api/test-questions', (req, res) => {
 });
 
 // Export for Vercel
-export default (req: VercelRequest, res: VercelResponse) => {
+export default (req, res) => {
   return app(req, res);
 };
