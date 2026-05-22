@@ -5,11 +5,12 @@ interface TickerProps {
   text: string;
   className?: string;
   direction?: 'left' | 'right';
+  large?: boolean;
 }
 
-const Ticker: React.FC<TickerProps> = ({ text, className = "bg-white", direction = 'left' }) => {
+const Ticker: React.FC<TickerProps> = ({ text, className = "bg-white", direction = 'left', large = false }) => {
   return (
-    <div className={`w-full border-b-2 border-black py-3 overflow-hidden whitespace-nowrap flex select-none ${className}`}>
+    <div className={`w-full border-b-2 border-black ${large ? 'h-[140px]' : 'py-3'} overflow-hidden whitespace-nowrap flex items-center select-none ${className}`}>
       <div className={`flex shrink-0 items-center ${direction === 'right' ? 'animate-marquee-reverse' : 'animate-marquee'}`}>
         {Array.from({ length: 15 }).map((_, i) => (
            <React.Fragment key={i}>

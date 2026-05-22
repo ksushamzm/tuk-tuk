@@ -68,14 +68,17 @@ const initialContent = {
   'muay_thai_title': 'ТАЙСКИЙ БОКС',
   'muay_thai_text': 'Интервью с выдающейся тайской боксершей, которая достигла значительных успехов в мире муай тай. Мы расскажем о её пути в спорт, начиная с раннего возраста, когда она впервые познакомилась с боевыми искусствами.',
   'muay_thai_image': 'https://picsum.photos/seed/muay_thai_fighter/800/1000',
-  'category_1_title': 'ТРАНСПОРТ',
+  'category_1_title': 'САМЫЕ ПОПУЛЯРНЫЕ ТРАДИЦИОННЫЕ ТАЙСКИЕ НАРЯДЫ',
   'category_1_image': 'https://picsum.photos/seed/tuk_tuk_v2/600/900',
+  'category_1_description': 'Узнайте всё о легендарных тук-туках и других колоритных способах передвижения по Таиланду.',
   'category_2_title': 'БУДДИЗМ',
   'category_2_image': 'https://picsum.photos/seed/buddha_gold/600/900',
+  'category_2_description': 'Откройте для себя духовные практики, традиции и священные места буддизма — сердца тайской культуры.',
   'category_3_title': 'АРХИТЕКТУРА',
   'category_3_image': 'https://picsum.photos/seed/thai_temple_roof/600/900',
+  'category_3_description': 'От древних ватов с золотыми шпилями до небоскрёбов Бангкока — архитектурное богатство страны.',
   'info_test_image': 'https://picsum.photos/seed/thai_dancer_pink/600/800',
-  'home_blocks': JSON.stringify(['Hero', 'RecentArticles', 'CategoryGrid', 'BlueSection', 'InfoGrid', 'MuayThai', 'GreenSection']),
+  'home_blocks': JSON.stringify(['Hero', 'RecentArticles', 'CategoryGrid', 'PinkSection', 'BlueSection', 'InfoGrid', 'MuayThai', 'GreenSection']),
 };
 
 const insertContent = db.prepare('INSERT OR IGNORE INTO site_content (key, value) VALUES (?, ?)');
@@ -85,6 +88,35 @@ const insertMany = db.transaction((content) => {
   }
 });
 insertMany(initialContent);
+
+// Migrate category card content to article-based titles and descriptions
+const categoryUpdates: Record<string, string> = {
+  'category_1_title': 'САМЫЕ ПОПУЛЯРНЫЕ ТРАДИЦИОННЫЕ ТАЙСКИЕ НАРЯДЫ',
+  'category_1_description': 'В Таиланде особенно важна культура традиционной одежды. Тайский национальный костюм Чут Тай отражает многовековое художественное и историческое наследие нации.',
+  'category_2_title': 'ТРАДИЦИОННЫЕ ЭЛЕМЕНТЫ В ХРАМОВЫХ КОМПЛЕКСАХ',
+  'category_2_description': 'В тайских храмовых комплексах скрыты тысячелетия истории и символики. Узнайте, что означает каждый элемент священной архитектуры.',
+  'category_3_title': 'КАКИЕ ПРОЦЕДУРЫ СТОИТ ПОСЕТИТЬ ИМЕННО ВАМ?',
+  'category_3_description': 'Аюрведа очень популярна в Таиланде и оказала большое влияние на традиционную медицину страны. Тайский массаж, травяные компрессы и древние рецепты ждут вас.',
+};
+for (const [key, value] of Object.entries(categoryUpdates)) {
+  db.prepare('UPDATE OR IGNORE site_content SET value = ? WHERE key = ?').run(value, key);
+}
+
+// Ensure PinkSection is in home_blocks (migrate existing DB records)
+const homeBlocksRow = db.prepare("SELECT value FROM site_content WHERE key = 'home_blocks'").get() as { value: string } | undefined;
+if (homeBlocksRow) {
+  const blocks: string[] = JSON.parse(homeBlocksRow.value);
+  if (!blocks.includes('PinkSection')) {
+    const idx = blocks.indexOf('BlueSection');
+    if (idx !== -1) {
+      blocks.splice(idx, 0, 'PinkSection');
+    } else {
+      const catIdx = blocks.indexOf('CategoryGrid');
+      if (catIdx !== -1) blocks.splice(catIdx + 1, 0, 'PinkSection');
+    }
+    db.prepare("UPDATE site_content SET value = ? WHERE key = 'home_blocks'").run(JSON.stringify(blocks));
+  }
+}
 
 // Seed initial test questions if empty
 const testCount = db.prepare('SELECT COUNT(*) as count FROM test_questions').get() as { count: number };
@@ -150,5 +182,35 @@ const seedArticles = db.transaction(() => {
   }
 });
 seedArticles();
+
+// Seed articles table with 3 default articles if empty
+const articleCount = db.prepare('SELECT COUNT(*) as count FROM articles').get() as { count: number };
+if (articleCount.count === 0) {
+  const insertArticle = db.prepare('INSERT OR IGNORE INTO articles (title, slug, category, coverImage, excerpt) VALUES (?, ?, ?, ?, ?)');
+  const seedDefaultArticles = db.transaction(() => {
+    insertArticle.run(
+      'Традиционная тайская одежда: от шелка до современных трендов',
+      'traditsionnaya-tayskaya-odezhda',
+      'Одежда',
+      'https://mioaqpjjpsfkzwbg.public.blob.vercel-storage.com/img/Clothes_1.jpg',
+      'Тайский шелк — один из символов страны. Узнайте, как традиционные мотивы и техники ткачества переплетаются с современной модой.'
+    );
+    insertArticle.run(
+      'Архитектура Таиланда: от древних храмов до небоскрёбов',
+      'arhitektura-tailanda',
+      'Архитектура',
+      'https://mioaqpjjpsfkzwbg.public.blob.vercel-storage.com/img/Architecture_1.jpg',
+      'От величественных ват с золотыми шпилями до стеклянных небоскрёбов Бангкока — архитектура Таиланда отражает тысячелетнюю историю страны.'
+    );
+    insertArticle.run(
+      'Аюрведа и традиционная тайская медицина',
+      'ayurveda-i-traditsionnaya-tayskaya-meditsina',
+      'Аюрведа',
+      'https://mioaqpjjpsfkzwbg.public.blob.vercel-storage.com/img/Ayurveda_1.jpg',
+      'Тайский массаж, травяные компрессы и древние рецепты — традиционная медицина Таиланда насчитывает более 2500 лет и сегодня переживает настоящий ренессанс.'
+    );
+  });
+  seedDefaultArticles();
+}
 
 export default db;

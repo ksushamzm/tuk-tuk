@@ -4,44 +4,41 @@ import Ticker from './Ticker';
 
 interface CardProps {
   title: string;
+  description?: string;
   image: string;
   hasSticker?: boolean;
+  stickerIcon?: string;
   className?: string;
   onClick?: () => void;
 }
 
-const Card: React.FC<CardProps> = ({ title, image, hasSticker, className = '', onClick }) => (
-  <div onClick={onClick} className={`relative h-[580px] group cursor-pointer border-black ${className}`}>
-    <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute inset-0 bg-gray-200">
-            <img src={image} alt={title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
-        </div>
-        <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors duration-300" />
-        
-        {/* Typography */}
-        <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 w-full text-center z-10 px-2">
-            <div className="relative inline-block">
-                <span className="relative font-roboto font-black text-5xl md:text-[54px] text-white uppercase italic tracking-tighter z-20 block leading-none" 
-                        style={{ 
-                        WebkitTextStroke: '2px black', 
-                        paintOrder: 'stroke fill',
-                        textShadow: '-5px 5px 0px #000'
-                        }}>
-                    {title}
-                </span>
-            </div>
-        </div>
+const Card: React.FC<CardProps> = ({ title, description, image, hasSticker, stickerIcon, className = '', onClick }) => (
+  <div onClick={onClick} className={`relative group cursor-pointer border-black flex flex-col ${className}`}>
+    {/* Image */}
+    <div className="relative overflow-hidden h-[220px] md:h-[380px] shrink-0">
+      <img src={image} alt={title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+      <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors duration-300" />
     </div>
 
-    {hasSticker && (
-        <div className="absolute top-[-20px] right-[-20px] z-50 w-24 h-24 md:w-32 md:h-32 pointer-events-none">
-            <svg viewBox="0 0 100 100" className="w-full h-full drop-shadow-[4px_4px_0px_rgba(0,0,0,1)] animate-spin-slow">
-                <path d="M50 0 L60 20 L80 15 L75 35 L95 45 L80 60 L90 80 L65 75 L50 95 L35 75 L10 80 L20 60 L5 45 L25 35 L20 15 L40 20 Z" fill="#FFF500" stroke="black" strokeWidth="2" />
-            </svg>
-            <div className="absolute inset-0 flex items-center justify-center pt-2 pl-2">
-                <span className="font-roboto font-black text-xl md:text-2xl">๙</span>
-            </div>
-        </div>
+    {/* White Card */}
+    <div className="bg-white border-t-2 border-black p-5 md:p-7 flex flex-col justify-between flex-1">
+      <div>
+        <h3 className="font-roboto font-black italic text-lg md:text-[22px] uppercase leading-tight mb-3 group-hover:text-thai-magenta transition-colors line-clamp-2">
+          {title}
+        </h3>
+        {description && (
+          <p className="font-roboto italic text-gray-600 text-sm md:text-base leading-relaxed line-clamp-3">{description}</p>
+        )}
+      </div>
+      <div className="mt-4 flex items-center gap-2 font-bold uppercase text-sm tracking-wider group-hover:gap-4 transition-all">
+        Читать далее <span>→</span>
+      </div>
+    </div>
+
+    {hasSticker && stickerIcon && (
+      <div className="absolute top-[-20px] right-[-20px] z-50 w-32 h-32 md:w-40 md:h-40 pointer-events-none">
+        <img src={stickerIcon} alt="icon" className="w-full h-full object-contain drop-shadow-[4px_4px_0px_rgba(0,0,0,1)]" />
+      </div>
     )}
   </div>
 );
@@ -56,33 +53,36 @@ const CategoryGrid: React.FC<CategoryGridProps> = ({ content }) => {
   return (
     <div className="w-full bg-white flex flex-col">
       {/* Top Ticker */}
-      <Ticker text="СТАТЬИ" />
-      
+      <Ticker text="СТАТЬИ" large className="bg-[#0EA5E9]" />
+
       <div className="grid grid-cols-2 md:grid-cols-3 border-b-2 border-black">
-         <Card 
-            title={content?.['category_1_title'] || "ТРАНСПОРТ"} 
-            image={content?.['category_1_image'] || "/images/транспорт.jpg"} 
-            hasSticker={true}
-            // Mobile: z-10 (bottom), Desktop: z-30 (top left)
-            className="border-b-2 md:border-b-0 border-r-2 z-10 md:z-30 h-[300px] md:h-[580px]"
-            onClick={() => navigate(`/category/${content?.['category_1_title'] || 'Транспорт'}`)}
-         />
-         <Card 
-            title={content?.['category_2_title'] || "БУДДИЗМ"} 
-            image={content?.['category_2_image'] || "/images/буддизм.jpg"} 
-            hasSticker={true}
-            // Mobile: z-20 (middle), Desktop: z-20 (middle)
-            className="border-b-2 md:border-b-0 md:border-r-2 z-20 md:z-20 h-[300px] md:h-[580px]"
-            onClick={() => navigate(`/category/${content?.['category_2_title'] || 'Буддизм'}`)}
-         />
-         <Card 
-            title={content?.['category_3_title'] || "АРХИТЕКТУРА"} 
-            image={content?.['category_3_image'] || "/images/архитектура.jpg"} 
-            hasSticker={true}
-            // Mobile: z-30 (top), Desktop: z-10 (bottom right)
-            className="border-r-2 md:border-r-0 col-span-2 md:col-span-1 z-30 md:z-10 h-[300px] md:h-[580px]" 
-            onClick={() => navigate(`/category/${content?.['category_3_title'] || 'Архитектура'}`)}
-         />
+        <Card
+          title={content?.['category_1_title'] || "САМЫЕ ПОПУЛЯРНЫЕ ТРАДИЦИОННЫЕ ТАЙСКИЕ НАРЯДЫ"}
+          description={content?.['category_1_description'] || "В Таиланде особенно важна культура..."}
+          image={content?.['category_1_image'] || "/images/транспорт.jpg"}
+          hasSticker={true}
+          stickerIcon="https://mioaqpjjpsfkzwbg.public.blob.vercel-storage.com/icon/Clothes.png"
+          className="border-b-2 md:border-b-0 border-r-2 z-10 md:z-30"
+          onClick={() => navigate('/category/этика')}
+        />
+        <Card
+          title={content?.['category_2_title'] || "ТРАДИЦИОННЫЕ ЭЛЕМЕНТЫ В ХРАМОВЫХ КОМПЛЕКСАХ"}
+          description={content?.['category_2_description'] || "В тайских храмовых комплексах..."}
+          image={content?.['category_2_image'] || "/images/буддизм.jpg"}
+          hasSticker={true}
+          stickerIcon="https://mioaqpjjpsfkzwbg.public.blob.vercel-storage.com/icon/Architecture.png"
+          className="border-b-2 md:border-b-0 md:border-r-2 z-20 md:z-20"
+          onClick={() => navigate('/category/архитектура')}
+        />
+        <Card
+          title={content?.['category_3_title'] || "КАКИЕ ПРОЦЕДУРЫ СТОИТ ПОСЕТИТЬ ИМЕННО ВАМ?"}
+          description={content?.['category_3_description'] || "Аюрведа очень популярна в Таиланде..."}
+          image={content?.['category_3_image'] || "/images/архитектура.jpg"}
+          hasSticker={true}
+          stickerIcon="https://mioaqpjjpsfkzwbg.public.blob.vercel-storage.com/icon/Ayurveda.png"
+          className="border-r-2 md:border-r-0 col-span-2 md:col-span-1 z-30 md:z-10"
+          onClick={() => navigate('/category/аюрведа')}
+        />
       </div>
     </div>
   );

@@ -64,18 +64,6 @@ const Hero: React.FC<HeroProps> = ({ content }) => {
            </h2>
          </div>
 
-                  {/* Sticker ИНТЕРЕСНОЕ */}
-                  <div className="absolute top-4 right-4 md:top-[30px] md:right-[140px] z-20">
-                     <span className="font-roboto italic font-black text-3xl md:text-[42px] uppercase text-white tracking-normal block leading-none"
-                           style={{ 
-                             WebkitTextStroke: '2px black', 
-                             paintOrder: 'stroke fill',
-                             textShadow: '4px 4px 0px #000' 
-                           }}>
-                       ИНТЕРЕСНОЕ
-                     </span>
-                  </div>
-
          {/* Row 2: Split Pink Strip and Hero Content */}
          <div className="flex-1 flex flex-col md:flex-row lg:h-[736px]">
             
@@ -89,23 +77,25 @@ const Hero: React.FC<HeroProps> = ({ content }) => {
                
                {/* Hero Image Area */}
                <div className="flex-1 lg:h-[596px] relative bg-gray-200 overflow-hidden border-b-2 border-black min-h-[400px]">
-                  <img 
-                    src={heroImage} 
-                    alt="Hero" 
+                  <img
+                    src={heroImage}
+                    alt="Hero"
                     className="w-full h-full object-cover object-top"
                   />
-                  
+               </div>
 
+               {/* Sticker Icon – outside overflow-hidden so it's not clipped */}
+               <div className="absolute top-2 right-2 z-30 w-32 h-32 md:w-40 md:h-40 pointer-events-none">
+                   <img
+                     src="https://mioaqpjjpsfkzwbg.public.blob.vercel-storage.com/icon/Buddhism.png"
+                     alt="Buddhism"
+                     className="w-full h-full object-contain drop-shadow-[4px_4px_0px_rgba(0,0,0,1)] md:drop-shadow-[6px_6px_0px_rgba(0,0,0,1)]"
+                   />
+               </div>
 
-                  {/* Sticker Thai Symbol ๙ (Number 9) */}
-                  <div className="absolute top-[-20px] right-[-20px] md:top-[-30px] md:right-[-30px] z-30 w-32 h-32 md:w-48 md:h-48 lg:w-56 lg:h-56">
-                      <svg viewBox="0 0 100 100" className="w-full h-full drop-shadow-[4px_4px_0px_rgba(0,0,0,1)] md:drop-shadow-[6px_6px_0px_rgba(0,0,0,1)] animate-spin-slow">
-                        <path d="M50 0 L58 18 L78 12 L73 31 L93 38 L80 52 L90 71 L70 68 L58 87 L48 71 L25 78 L33 58 L12 55 L28 41 L18 20 L40 25 Z" fill="#FFE600" stroke="black" strokeWidth="2" />
-                      </svg>
-                      <div className="absolute inset-0 flex items-center justify-center pt-2 pr-2 md:pt-4 md:pr-4">
-                        <span className="font-roboto font-black text-4xl md:text-6xl text-black">๙</span>
-                      </div>
-                  </div>
+               {/* ИНТЕРЕСНОЕ label */}
+               <div className="absolute top-6 left-8 md:top-10 md:left-[150px] z-20 pointer-events-none">
+                 <img src="/images/интересное.svg" alt="ИНТЕРЕСНОЕ" className="h-8 md:h-12 w-auto" />
                </div>
 
                {/* Bottom Link */}

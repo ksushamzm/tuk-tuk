@@ -91,66 +91,61 @@ const TestPage: React.FC<TestPageProps> = () => {
 
   return (
     <div className="w-full bg-white flex flex-col min-h-[800px]">
-      {/* Main Grid Content */}
-      <div className="flex-1 grid grid-cols-1 md:grid-cols-3 border-b-2 border-black min-h-[600px]">
-        
-        {/* Left Column (Title) */}
-        <div className="md:col-span-1 border-b-2 md:border-b-0 md:border-r-2 border-black p-8 md:p-12 bg-white">
-          <h1 className="font-roboto font-black italic text-4xl md:text-5xl lg:text-6xl uppercase leading-[1.1] tracking-tight">
-            ТЕСТ <br />
-            НА СКОЛЬКО ХОРОШО <br />
-            ВЫ ЗНАЕТЕ ТАЙСКИЙ <br />
-            ЭТИКЕТ?
-          </h1>
-          <p className="mt-8 font-bold text-xl text-gray-500">
-            Вопрос {currentIndex + 1} из {questions.length}
-          </p>
-        </div>
+      {/* Block 1: Full-width title */}
+      <div className=" p-8 md:p-12">
+        <h1 className="font-roboto font-black italic text-4xl md:text-5xl lg:text-6xl uppercase leading-[1.1] tracking-tight">
+          ТЕСТ <br />
+          НА СКОЛЬКО ХОРОШО <br />
+          ВЫ ЗНАЕТЕ ТАЙСКИЙ <br />
+          ЭТИКЕТ?
+        </h1>
+      </div>
 
-        {/* Right Column (Question + Answers) */}
-        <div className="md:col-span-2 flex flex-col bg-white relative">
-          
-          <div className="p-8 md:p-16 flex-1">
-            {/* Question */}
-            <h2 className="font-roboto italic font-normal text-2xl md:text-3xl mb-12 max-w-2xl">
-              {currentQuestion.question}
-            </h2>
+      {/* Block 2: 50/50 split — empty left, question+options right */}
+      <div className="flex-1 grid grid-cols-1 md:grid-cols-2  min-h-[500px]">
 
-            {/* Options */}
-            <div className="space-y-6">
-              {currentQuestion.options.map((option) => (
-                <button
-                  key={option.id}
-                  onClick={() => handleOptionClick(option.id)}
-                  className={`w-full text-left font-roboto italic text-xl md:text-2xl hover:translate-x-2 transition-transform duration-200 block ${
-                    selectedOption === option.id ? 'font-bold' : 'font-normal'
-                  } ${selectedOption && option.id === currentQuestion.correctId ? 'text-green-600' : ''} ${selectedOption && selectedOption === option.id && option.id !== currentQuestion.correctId ? 'text-red-600' : ''}`}
-                >
-                  {option.id}) {option.text}
-                </button>
-              ))}
-            </div>
+        {/* Left: empty white space */}
+        <div className="hidden md:block " />
 
-            {/* Answer Result Block */}
-            {selectedOption && (
-              <div className="mt-16 animate-in fade-in slide-in-from-bottom-4 duration-500">
-                <p className="font-roboto italic font-normal text-xl md:text-2xl mb-4">
-                  {selectedOption === currentQuestion.correctId ? '✅ Верно!' : '❌ Неверно.'} Правильный ответ: {currentQuestion.correctId})
-                </p>
-                <p className="font-roboto italic font-normal text-xl md:text-2xl leading-relaxed max-w-2xl">
-                  {currentQuestion.explanation}
-                </p>
-              </div>
-            )}
+        {/* Right: question + options */}
+        <div className="flex flex-col bg-white relative p-8 md:p-12">
+          <h2 className="font-roboto font-bold text-xl md:text-2xl leading-snug mb-10">
+            {currentQuestion.question}
+          </h2>
+
+          <div className="space-y-6 flex-1">
+            {currentQuestion.options.map((option) => (
+              <button
+                key={option.id}
+                onClick={() => handleOptionClick(option.id)}
+                className={`w-full text-left text-black font-roboto italic text-xl md:text-2xl hover:translate-x-2 transition-transform duration-200 block bg-transparent border-0 p-0 cursor-pointer ${
+                  selectedOption === option.id ? 'font-bold' : 'font-normal'
+                } ${selectedOption && option.id === currentQuestion.correctId ? 'text-green-600' : ''} ${selectedOption && selectedOption === option.id && option.id !== currentQuestion.correctId ? 'text-red-600' : ''}`}
+              >
+                {option.id}) {option.text}
+              </button>
+            ))}
           </div>
+
+          {/* Answer Result */}
+          {selectedOption && (
+            <div className="mt-10 animate-in fade-in slide-in-from-bottom-4 duration-500">
+              <p className="font-roboto italic font-normal text-xl md:text-2xl mb-4">
+                {selectedOption === currentQuestion.correctId ? '✅ Верно!' : '❌ Неверно.'} Правильный ответ: {currentQuestion.correctId})
+              </p>
+              <p className="font-roboto italic font-normal text-xl md:text-2xl leading-relaxed">
+                {currentQuestion.explanation}
+              </p>
+            </div>
+          )}
 
           {/* Next Arrow */}
           {selectedOption && (
-            <div 
+            <div
               onClick={handleNext}
               className="absolute bottom-12 right-12 cursor-pointer hover:scale-110 transition-transform"
             >
-               <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1NSIgaGVpZ2h0PSI1NSIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9ImJsYWNrIiBzdHJva2Utd2lkdGg9IjEuNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj48cGF0aCBkPSJNNSAxMmgyNDQgbTctNyA3IDctNyA3IiB0cmFuc2Zvcm09InNjYWxlKDAuMDUpIi8+PHBhdGggZD0iTTUgMTJoMTQiIC8+PHBhdGggZD0ibTEyIDUgNyA3LTcgNyIgLz48L3N2Zz4=" alt="arrow" className="w-16 h-16" />
+              <svg xmlns="http://www.w3.org/2000/svg" width="55" height="55" viewBox="0 0 24 24" fill="none" stroke="black" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14" /><path d="m12 5 7 7-7 7" /></svg>
             </div>
           )}
         </div>

@@ -13,19 +13,19 @@ const AboutPage: React.FC = () => {
         <div className="md:col-span-1 border-b-2 md:border-b-0 md:border-r-2 border-black flex flex-col">
           {/* Logo Box */}
           <div className="h-[415px] border-b-2 border-black relative flex items-center justify-center overflow-hidden bg-white">
-             <div className="relative w-full h-full p-6 flex items-center justify-center">
-                      <div className="relative w-full h-full flex items-center justify-center">
-                          <TukTukLogo 
-                            className="w-[90%] h-auto" 
-                            style={{ filter: 'drop-shadow(-8px 8px 0px #000)' }} 
+             <div className="relative w-full h-full flex items-center justify-center">
+                      <div className="relative w-full h-full flex items-center justify-center px-8">
+                          <TukTukLogo
+                            className="w-full h-auto max-h-[85%]"
+                            style={{ filter: 'drop-shadow(-10px 10px 0px #000)' }}
                           />
                           {/* Media Text Overlay */}
-                          <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 w-full text-center z-10">
-                              <span className="font-roboto italic font-black text-6xl text-white uppercase tracking-widest select-none block leading-none"
-                                    style={{ 
-                                      WebkitTextStroke: '2px black', 
+                          <div className="absolute bottom-[18%] right-[8%] z-10">
+                              <span className="font-roboto italic font-black text-4xl lg:text-[58px] text-white uppercase tracking-tight select-none block leading-none"
+                                    style={{
+                                      WebkitTextStroke: '2px black',
                                       paintOrder: 'stroke fill',
-                                      textShadow: '-4px 4px 0px #000' 
+                                      textShadow: '-5px 4px 0px #000'
                                     }}>
                                 МЕДИА
                               </span>

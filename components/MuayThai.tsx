@@ -36,10 +36,12 @@ const MuayThai: React.FC<MuayThaiProps> = ({ content }) => {
          </div>
          
          {/* Decoration Sticker */}
-         <div className="absolute bottom-8 left-8 w-24 h-24">
-            <svg viewBox="0 0 100 100" className="w-full h-full drop-shadow-[4px_4px_0px_rgba(0,0,0,1)] animate-spin-slow">
-               <path d="M50 0 L60 20 L80 15 L75 35 L95 45 L80 60 L90 80 L65 75 L50 95 L35 75 L10 80 L20 60 L5 45 L25 35 L20 15 L40 20 Z" fill="#FFF500" stroke="black" strokeWidth="2" />
-            </svg>
+         <div className="absolute bottom-[-10px] left-8 w-32 h-32 md:w-40 md:h-40">
+            <img
+               src="https://mioaqpjjpsfkzwbg.public.blob.vercel-storage.com/icon/Martial%20Arts.png"
+               alt="Martial Arts"
+               className="w-full h-full object-contain drop-shadow-[4px_4px_0px_rgba(0,0,0,1)]"
+            />
          </div>
       </div>
 

@@ -30,7 +30,7 @@ const Home: React.FC = () => {
 
   if (loading) return <div className="p-20 text-center font-bold text-2xl">Загрузка...</div>;
 
-  const blocks = JSON.parse(content['home_blocks'] || '["Hero", "RecentArticles", "CategoryGrid", "BlueSection", "InfoGrid", "MuayThai", "GreenSection"]');
+  const blocks = JSON.parse(content['home_blocks'] || '["Hero", "RecentArticles", "CategoryGrid", "PinkSection", "BlueSection", "InfoGrid", "MuayThai", "GreenSection"]');
 
   return (
     <>

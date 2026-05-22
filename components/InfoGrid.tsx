@@ -18,60 +18,26 @@ const InfoGrid: React.FC<InfoGridProps> = ({ onTestClick, content }) => {
       {/* Column 1: Test (Pink) */}
       <div 
         onClick={onTestClick}
-        className="relative h-[300px] md:h-[535px] border-b-2 md:border-b-0 border-r-2 border-black bg-thai-pink overflow-hidden flex flex-col items-center pt-8 group cursor-pointer"
+        className="relative h-[300px] md:h-[535px] border-b-2 md:border-b-0 border-r-2 border-black bg-thai-pink overflow-hidden group cursor-pointer"
       >
-         
-         {/* Background Pattern */}
-         <div className="absolute inset-0 opacity-10 pointer-events-none">
-             <svg width="100%" height="100%">
-                 <pattern id="pink-dots" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
-                     <circle cx="2" cy="2" r="2" fill="black" />
-                 </pattern>
-                 <rect width="100%" height="100%" fill="url(#pink-dots)" />
-             </svg>
-         </div>
-
-         <div className="relative z-10 w-full text-center mt-6">
-           {/* Starburst Effect */}
-           <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[280px] h-[280px] -z-10 animate-spin-slow">
-               <svg viewBox="0 0 100 100" className="w-full h-full fill-thai-cyan stroke-black stroke-2 drop-shadow-[4px_4px_0px_rgba(0,0,0,1)]">
-                  <path d="M50 0 L63 25 L90 15 L78 40 L100 55 L75 70 L85 95 L60 82 L45 100 L35 75 L5 80 L25 55 L0 35 L28 28 L20 0 L50 15 Z" />
-               </svg>
-           </div>
-           
-           <span className="font-roboto font-black text-7xl uppercase text-white italic transform -rotate-6 inline-block" 
-                 style={{ 
-                   WebkitTextStroke: '2.5px black', 
-                   paintOrder: 'stroke fill',
-                   textShadow: '4px 4px 0px #000' 
-                 }}>
-             ТЕСТ
-           </span>
-         </div>
-         
-         <div className="mt-8 relative z-20">
-             <span className="bg-black text-white font-roboto font-bold text-xl px-4 py-1 uppercase tracking-widest transform rotate-2 inline-block border-2 border-white">
-               Проверь себя
-             </span>
-         </div>
-
-         <div className="absolute inset-x-0 bottom-0 top-32 transition-transform duration-500 group-hover:scale-105">
-            <img 
-              src={content?.['info_test_image'] || "/images/тестглавная.png"} 
-              alt="Woman with lantern" 
-              className="w-full h-full object-contain object-bottom"
+         <div className="absolute inset-0 transition-transform duration-500 group-hover:scale-105">
+            <img
+              src={content?.['info_test_image'] || "/images/тестглавная.png"}
+              alt="Test"
+              className="w-full h-full object-cover object-top"
             />
          </div>
-         
-         {/* Corner Sticker */}
-         <div className="absolute bottom-6 right-6 z-30 w-24 h-24">
-            <svg viewBox="0 0 100 100" className="w-full h-full drop-shadow-[4px_4px_0px_rgba(0,0,0,1)] animate-spin-slow">
-                <path d="M50 0 L60 20 L80 15 L75 35 L95 45 L80 60 L90 80 L65 75 L50 95 L35 75 L10 80 L20 60 L5 45 L25 35 L20 15 L40 20 Z" fill="#FFF500" stroke="black" strokeWidth="2" />
-            </svg>
-            <div className="absolute inset-0 flex items-center justify-center">
-                <span className="font-black text-xl">NEW</span>
-            </div>
+
+         <div className="absolute top-6 left-6 z-10">
+           <svg width="146" height="53" viewBox="0 0 146 53" fill="none" xmlns="http://www.w3.org/2000/svg"
+                className="drop-shadow-[4px_4px_0px_rgba(0,0,0,1)] w-[120px] md:w-[180px] h-auto">
+             <path d="M143.902 1.59912L143.698 2.771L142.537 9.42627L142.393 10.2544H130.112L124.271 44.0044L124.127 44.8335H113.799L114.002 43.6626L114.205 42.4917L119.807 10.2544H107.709L107.913 9.08252L109.074 2.42725L109.219 1.59912H143.902Z" fill="white" stroke="black" strokeWidth="2"/>
+             <path d="M91.501 1.00488L91.5 1.00586C94.6099 1.06494 97.3063 1.73392 99.5439 3.06543H99.5449C101.786 4.36961 103.512 6.19953 104.712 8.5332H104.714C105.927 10.8377 106.587 13.5076 106.725 16.5156L106.772 17.5645L105.723 17.5605L97.4814 17.5322L96.4727 17.5293L96.4844 16.5205C96.5022 15.0781 96.3235 13.8561 95.9727 12.8369L95.9697 12.8271L95.9668 12.8184C95.6519 11.8422 95.1192 11.126 94.374 10.6191L94.2217 10.5176C93.4949 10.0599 92.4458 9.76534 90.9932 9.71582V9.71484C89.3333 9.66347 87.9979 9.9942 86.9336 10.6455C85.8037 11.3369 84.8639 12.2652 84.1113 13.4453C83.3506 14.6677 82.7457 16.0098 82.2988 17.4756C81.859 18.98 81.5304 20.4526 81.3115 21.8936L80.918 24.8096L80.9189 24.8105C80.772 26.0047 80.67 27.3358 80.6143 28.8047V28.8057C80.5607 30.1976 80.6764 31.5169 80.958 32.7666C81.2233 33.9439 81.7262 34.8847 82.4492 35.625C83.0382 36.2118 83.9631 36.6128 85.3643 36.7031L85.6514 36.7168L86.2305 36.7227C87.5505 36.7037 88.6586 36.4591 89.5781 36.0205L89.583 36.0176C90.6637 35.5099 91.5341 34.7623 92.208 33.7598L92.2148 33.751C92.9236 32.7216 93.4544 31.4663 93.79 29.9648L93.79 29.9648L93.9619 29.1943L94.752 29.1826L102.852 29.0693L103.992 29.0537L103.858 30.1865C103.481 33.3869 102.39 36.1692 100.566 38.5L100.567 38.501C98.7839 40.7855 96.5362 42.5296 93.8408 43.7275L93.835 43.7305C91.1447 44.9061 88.2346 45.4586 85.1182 45.3994H85.1162C82.2316 45.3401 79.7315 44.7258 77.6621 43.5049L77.6553 43.501V43.5C75.6225 42.2801 74.0176 40.6463 72.8555 38.6074C71.7129 36.6029 70.9668 34.3778 70.6104 31.9424C70.2569 29.5274 70.2382 27.0576 70.5508 24.5371L70.5527 24.5234L70.9492 21.6631L70.9502 21.6543C71.3399 19.0043 72.0514 16.4412 73.084 13.9668L73.0869 13.9609L73.2891 13.4971C74.3205 11.1926 75.64 9.12197 77.249 7.29102C78.9807 5.32056 81.0342 3.76616 83.4023 2.63184C85.8091 1.47901 88.5166 0.94559 91.501 1.00488Z" fill="white" stroke="black" strokeWidth="2"/>
+             <path d="M72.9033 1.59912L72.6992 2.771L71.5381 9.42627L71.3936 10.2544H52.8486L51.4346 18.3931H67.2686L67.0635 19.5659L65.9307 26.0229L65.7852 26.8501H49.9648L48.3398 36.2065H66.957L66.752 37.3794L65.5908 44.0063L65.4453 44.8335H36.5137L36.7158 43.6626L43.8525 2.42822L43.9961 1.59912H72.9033Z" fill="white" stroke="black" strokeWidth="2"/>
+             <path d="M41.3828 1.59912L41.1787 2.771L40.0176 9.42627L39.873 10.2544H27.5928L21.751 44.0044L21.6074 44.8335H11.2793L11.4824 43.6626L17.2871 10.2544H5.18945L5.39355 9.08252L6.55469 2.42725L6.69922 1.59912H41.3828Z" fill="white" stroke="black" strokeWidth="2"/>
+           </svg>
          </div>
+         
       </div>
 
       {/* Column 2: Etiquette (White with Custom Window Frame) */}
@@ -109,11 +75,8 @@ const InfoGrid: React.FC<InfoGridProps> = ({ onTestClick, content }) => {
          </div>
          
          <div className="relative flex-1 flex items-center justify-center transform group-hover:scale-110 transition-transform duration-300">
-             {/* Character */}
              <div className="relative">
-                <span className="font-serif text-[100px] md:text-[180px] leading-none text-white" style={{ WebkitTextStroke: '4px black', filter: 'drop-shadow(-6px 4px 0px #000000)' }}>
-                  {content?.['info_letter_char'] || "ก"}
-                </span>
+                <img src="/images/n.svg" alt="н" className="w-[100px] md:w-[180px] h-auto" style={{ filter: 'drop-shadow(-6px 4px 0px #000000)' }} />
              </div>
          </div>
 
@@ -125,7 +88,7 @@ const InfoGrid: React.FC<InfoGridProps> = ({ onTestClick, content }) => {
     </div>
     
     {/* Bottom Ticker */}
-    <Ticker text="ИНТЕРВЬЮ" direction="right" className="bg-[#FFFFFF]" />
+    <Ticker text="ИНТЕРВЬЮ" direction="right" className="bg-[#FFFFFF]" large />
     </>
   );
 };

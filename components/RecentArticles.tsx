@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Ticker from './Ticker';
+import { categoriesData } from '../data/categoriesData';
 
 interface Article {
   id: number;
@@ -34,18 +35,27 @@ const RecentArticles: React.FC<{ content?: Record<string, string> }> = ({ conten
 
   return (
     <div className="w-full bg-white flex flex-col">
-      <Ticker text={content?.['recent_articles_ticker'] || "НОВЫЕ СТАТЬИ"} direction="left" className="bg-thai-cyan" />
+      <Ticker text={content?.['recent_articles_ticker'] || "НОВЫЕ СТАТЬИ"} direction="left" className="bg-[#0EA5E9]" large />
       
       <div className="grid grid-cols-2 lg:grid-cols-3 border-b-2 border-black">
         {articles.map((article, index) => (
-          <Link 
-            key={article.id} 
+          <Link
+            key={article.id}
             to={`/article/${article.slug}`}
             className={`group relative flex flex-col border-black bg-white hover:bg-gray-50 transition-colors
               ${index !== articles.length - 1 ? 'border-r-2' : ''}
               ${index === 2 ? 'col-span-2 lg:col-span-1 border-t-2 lg:border-t-0' : ''}
             `}
           >
+            {/* Category Icon */}
+            {(() => {
+              const icon = categoriesData[article.category.toLowerCase()]?.starIcon;
+              return icon ? (
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 w-14 h-14 md:w-20 md:h-20 pointer-events-none">
+                  <img src={icon} alt={article.category} className="w-full h-full object-contain drop-shadow-[4px_4px_0px_rgba(0,0,0,1)]" />
+                </div>
+              ) : null;
+            })()}
             {/* Image Container */}
             <div className="aspect-[4/3] w-full overflow-hidden border-b-2 border-black relative">
               {article.coverImage ? (

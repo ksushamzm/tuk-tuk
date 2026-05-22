@@ -1,14 +1,16 @@
-
 import React from 'react';
+import yellowOrnament from '../public/images/yellow_ornament.svg';
 
-const ThaiPinkPattern: React.FC<{ className?: string }> = ({ className = "" }) => {
-  // Content cleared per "наполнение розового блока сотри" instruction.
-  // Returning a solid magenta block as a brutalist design element.
-  return (
-    <div className={`w-full h-full bg-thai-magenta relative overflow-hidden ${className}`}>
-      {/* Pattern removed */}
-    </div>
-  );
-};
+const ThaiPinkPattern: React.FC<{ className?: string }> = ({ className = "" }) => (
+  <div
+    className={`w-full h-full bg-[#FF008C] ${className}`}
+    style={{
+      backgroundImage: `url(${yellowOrnament})`,
+      backgroundRepeat: 'repeat-y',
+      backgroundPosition: 'center top',
+      backgroundSize: '100% auto',
+    }}
+  />
+);
 
 export default ThaiPinkPattern;
