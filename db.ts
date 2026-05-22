@@ -3,7 +3,11 @@ import path from 'path';
 import fs from 'fs';
 import { articlesData } from './data/articlesData.js';
 
-const dbPath = path.resolve(process.cwd(), 'database.sqlite');
+// Use /tmp directory on Vercel (writable)
+const isVercel = process.env.VERCEL === '1';
+const dbPath = isVercel 
+  ? path.resolve('/tmp', 'database.sqlite')
+  : path.resolve(process.cwd(), 'database.sqlite');
 
 // Check if we need to reset the database (via environment variable)
 if (process.env.RESET_DB === 'true' && fs.existsSync(dbPath)) {
