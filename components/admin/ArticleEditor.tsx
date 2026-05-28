@@ -2,31 +2,37 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Image as ImageIcon, Plus, Trash2, Eye } from 'lucide-react';
 import { categoriesData } from '../../data/categoriesData';
+import { templateArticlesApi, uploadApi, TemplateArticle } from '../../services/api';
 
-interface TemplateArticle {
+interface TextBlock {
+  id: string;
+  text: string;
+}
+
+interface ArticleForm {
   id: string;
   categoryId: string;
   templateId: number;
   title: string;
   section1Title: string;
-  section1Text: string[];
+  section1Text: TextBlock[];
   image1: string;
   image2: string;
   section2Title: string;
-  section2Text: string[];
+  section2Text: TextBlock[];
 }
 
-const defaultArticle: TemplateArticle = {
+const defaultArticle: ArticleForm = {
   id: '',
   categoryId: '',
   templateId: 1,
   title: '',
   section1Title: '',
-  section1Text: [''],
+  section1Text: [{ id: crypto.randomUUID(), text: '' }],
   image1: '',
   image2: '',
   section2Title: '',
-  section2Text: [''],
+  section2Text: [{ id: crypto.randomUUID(), text: '' }],
 };
 
 const categoryOptions = Object.entries(categoriesData).map(([key, val]) => ({
@@ -39,31 +45,30 @@ const ArticleEditor: React.FC = () => {
   const navigate = useNavigate();
   const isEditing = !!slug;
 
-  const [article, setArticle] = useState<TemplateArticle>(defaultArticle);
+  const [article, setArticle] = useState<ArticleForm>(defaultArticle);
   const [loading, setLoading] = useState(isEditing);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
 
   useEffect(() => {
     if (isEditing && slug) {
-      fetch(`/api/template-articles/${encodeURIComponent(slug)}`)
-        .then(res => {
-          if (!res.ok) throw new Error('Failed to fetch article');
-          return res.json();
-        })
+      templateArticlesApi.getBySlug(slug)
         .then(data => {
-          if (data.error) throw new Error(data.error);
           setArticle({
             id: data.id,
             categoryId: data.categoryId,
             templateId: data.templateId,
             title: data.title,
             section1Title: data.section1Title || '',
-            section1Text: data.section1Text?.length ? data.section1Text : [''],
+            section1Text: data.section1Text?.length 
+              ? data.section1Text.map(text => ({ id: crypto.randomUUID(), text }))
+              : [{ id: crypto.randomUUID(), text: '' }],
             image1: data.image1 || '',
             image2: data.image2 || '',
             section2Title: data.section2Title || '',
-            section2Text: data.section2Text?.length ? data.section2Text : [''],
+            section2Text: data.section2Text?.length 
+              ? data.section2Text.map(text => ({ id: crypto.randomUUID(), text }))
+              : [{ id: crypto.randomUUID(), text: '' }],
           });
           setLoading(false);
         })
@@ -75,26 +80,31 @@ const ArticleEditor: React.FC = () => {
     }
   }, [slug, isEditing, navigate]);
 
-  const handleChange = (field: keyof TemplateArticle, value: any) => {
+  const handleChange = (field: keyof ArticleForm, value: string | number) => {
     setArticle(prev => ({ ...prev, [field]: value }));
     setErrorMsg(null);
   };
 
-  const handleTextArrayChange = (field: 'section1Text' | 'section2Text', index: number, value: string) => {
+  const handleTextArrayChange = (field: 'section1Text' | 'section2Text', id: string, value: string) => {
     const arr = [...article[field]];
-    arr[index] = value;
-    setArticle(prev => ({ ...prev, [field]: arr }));
-    setErrorMsg(null);
+    const index = arr.findIndex(block => block.id === id);
+    if (index !== -1) {
+      arr[index] = { ...arr[index], text: value };
+      setArticle(prev => ({ ...prev, [field]: arr }));
+      setErrorMsg(null);
+    }
   };
 
   const addTextLine = (field: 'section1Text' | 'section2Text') => {
-    setArticle(prev => ({ ...prev, [field]: [...prev[field], ''] }));
+    setArticle(prev => ({ 
+      ...prev, 
+      [field]: [...prev[field], { id: crypto.randomUUID(), text: '' }] 
+    }));
   };
 
-  const removeTextLine = (field: 'section1Text' | 'section2Text', index: number) => {
-    const arr = [...article[field]];
-    arr.splice(index, 1);
-    if (arr.length === 0) arr.push('');
+  const removeTextLine = (field: 'section1Text' | 'section2Text', id: string) => {
+    const arr = article[field].filter(block => block.id !== id);
+    if (arr.length === 0) arr.push({ id: crypto.randomUUID(), text: '' });
     setArticle(prev => ({ ...prev, [field]: arr }));
   };
 
@@ -102,21 +112,11 @@ const ArticleEditor: React.FC = () => {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    const formData = new FormData();
-    formData.append('image', file);
-
     try {
-      const res = await fetch('/api/upload', { method: 'POST', body: formData });
-      if (!res.ok) throw new Error('Upload failed');
-      const data = await res.json();
-      handleChange(field, data.url);
+      const { url } = await uploadApi.uploadImage(file);
+      handleChange(field, url);
     } catch (err) {
-      // Fallback to base64
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        handleChange(field, reader.result as string);
-      };
-      reader.readAsDataURL(file);
+      setErrorMsg('Ошибка загрузки изображения: ' + (err instanceof Error ? err.message : 'Unknown error'));
     }
   };
 
@@ -128,29 +128,19 @@ const ArticleEditor: React.FC = () => {
 
     setSaving(true);
     try {
-      const method = isEditing ? 'PUT' : 'POST';
-      const url = isEditing
-        ? `/api/template-articles/${encodeURIComponent(slug!)}`
-        : '/api/template-articles';
-
-      const body = {
+      const body: TemplateArticle = {
         ...article,
-        section1Text: article.section1Text.filter(t => t.trim() !== ''),
-        section2Text: article.section2Text.filter(t => t.trim() !== ''),
+        section1Text: article.section1Text.map(b => b.text).filter(t => t.trim() !== ''),
+        section2Text: article.section2Text.map(b => b.text).filter(t => t.trim() !== ''),
       };
 
-      const res = await fetch(url, {
-        method,
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body),
-      });
-
-      if (res.ok) {
-        navigate('/admin/articles');
+      if (isEditing) {
+        await templateArticlesApi.update(slug!, body);
       } else {
-        const data = await res.json();
-        setErrorMsg(`Ошибка сохранения: ${data.error || 'Неизвестная ошибка'}`);
+        await templateArticlesApi.create(body);
       }
+      
+      navigate('/admin/articles');
     } catch (error) {
       setErrorMsg('Ошибка сохранения: ' + (error instanceof Error ? error.message : String(error)));
     } finally {
@@ -279,17 +269,17 @@ const ArticleEditor: React.FC = () => {
 
         <div className="space-y-3">
           <label className="font-bold">Параграфы секции 1</label>
-          {article.section1Text.map((text, i) => (
-            <div key={i} className="flex gap-2 items-start">
-              <span className="text-gray-400 font-mono text-sm mt-3 w-6 text-right">{i + 1}</span>
+          {article.section1Text.map((block) => (
+            <div key={block.id} className="flex gap-2 items-start">
+              <span className="text-gray-400 font-mono text-sm mt-3 w-6 text-right">•</span>
               <textarea
-                value={text}
-                onChange={(e) => handleTextArrayChange('section1Text', i, e.target.value)}
+                value={block.text}
+                onChange={(e) => handleTextArrayChange('section1Text', block.id, e.target.value)}
                 className="flex-1 p-3 border-2 border-gray-300 rounded-lg focus:border-black outline-none min-h-[80px] resize-y"
                 placeholder="Текст параграфа... (можно начать с • для списка)"
               />
               <button
-                onClick={() => removeTextLine('section1Text', i)}
+                onClick={() => removeTextLine('section1Text', block.id)}
                 className="p-2 text-red-500 hover:bg-red-50 rounded-lg transition-colors mt-1"
                 title="Удалить параграф"
               >
@@ -369,17 +359,17 @@ const ArticleEditor: React.FC = () => {
 
         <div className="space-y-3">
           <label className="font-bold">Параграфы секции 2</label>
-          {article.section2Text.map((text, i) => (
-            <div key={i} className="flex gap-2 items-start">
-              <span className="text-gray-400 font-mono text-sm mt-3 w-6 text-right">{i + 1}</span>
+          {article.section2Text.map((block) => (
+            <div key={block.id} className="flex gap-2 items-start">
+              <span className="text-gray-400 font-mono text-sm mt-3 w-6 text-right">•</span>
               <textarea
-                value={text}
-                onChange={(e) => handleTextArrayChange('section2Text', i, e.target.value)}
+                value={block.text}
+                onChange={(e) => handleTextArrayChange('section2Text', block.id, e.target.value)}
                 className="flex-1 p-3 border-2 border-gray-300 rounded-lg focus:border-black outline-none min-h-[80px] resize-y"
                 placeholder="Текст параграфа... (можно начать с • для списка)"
               />
               <button
-                onClick={() => removeTextLine('section2Text', i)}
+                onClick={() => removeTextLine('section2Text', block.id)}
                 className="p-2 text-red-500 hover:bg-red-50 rounded-lg transition-colors mt-1"
                 title="Удалить параграф"
               >

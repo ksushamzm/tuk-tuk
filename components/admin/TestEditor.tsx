@@ -1,28 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { Save, Plus, Trash2 } from 'lucide-react';
-
-interface Option {
-  id: string;
-  text: string;
-}
-
-interface Question {
-  id?: number;
-  question: string;
-  options: Option[];
-  correctId: string;
-  explanation: string;
-}
+import { testQuestionsApi, TestQuestion } from '../../services/api';
 
 const TestEditor: React.FC = () => {
-  const [questions, setQuestions] = useState<Question[]>([]);
+  const [questions, setQuestions] = useState<TestQuestion[]>([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
+  const [successMsg, setSuccessMsg] = useState<string | null>(null);
 
   useEffect(() => {
-    fetch('/api/test-questions')
-      .then(res => res.json())
+    testQuestionsApi.getAll()
       .then(data => {
         setQuestions(data);
         setLoading(false);
@@ -34,7 +22,7 @@ const TestEditor: React.FC = () => {
       });
   }, []);
 
-  const handleQuestionChange = (index: number, field: keyof Question, value: string) => {
+  const handleQuestionChange = (index: number, field: keyof TestQuestion, value: string | number) => {
     const newQuestions = [...questions];
     newQuestions[index] = { ...newQuestions[index], [field]: value };
     setQuestions(newQuestions);
@@ -77,19 +65,12 @@ const TestEditor: React.FC = () => {
   const handleSave = async () => {
     setSaving(true);
     setErrorMsg(null);
+    setSuccessMsg(null);
+    
     try {
-      const res = await fetch('/api/test-questions', {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(questions),
-      });
-
-      if (!res.ok) {
-        const data = await res.json();
-        throw new Error(data.error || 'Не удалось обновить вопросы теста');
-      }
-
-      alert('Вопросы теста успешно обновлены!');
+      await testQuestionsApi.updateAll(questions);
+      setSuccessMsg('Вопросы теста успешно обновлены!');
+      setTimeout(() => setSuccessMsg(null), 3000);
     } catch (error) {
       console.error(error);
       setErrorMsg(error instanceof Error ? error.message : 'Ошибка при обновлении вопросов теста');
@@ -98,7 +79,7 @@ const TestEditor: React.FC = () => {
     }
   };
 
-  if (loading) return <div>Загрузка...</div>;
+  if (loading) return <div className="p-8 text-lg">Загрузка...</div>;
 
   return (
     <div className="max-w-4xl mx-auto pb-20">
@@ -113,6 +94,12 @@ const TestEditor: React.FC = () => {
           {saving ? 'Сохранение...' : 'Сохранить'}
         </button>
       </div>
+
+      {successMsg && (
+        <div className="bg-green-100 border-2 border-green-500 text-green-700 p-4 rounded-lg mb-6 font-bold">
+          {successMsg}
+        </div>
+      )}
 
       {errorMsg && (
         <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-6">

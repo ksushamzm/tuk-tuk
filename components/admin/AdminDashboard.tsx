@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FileText, Settings, ArrowRight } from 'lucide-react';
+import { templateArticlesApi } from '../../services/api';
 
 const AdminDashboard: React.FC = () => {
   const [stats, setStats] = useState({ articles: 0 });
 
   useEffect(() => {
-    fetch('/api/template-articles')
-      .then(res => res.json())
+    templateArticlesApi.getAll()
       .then(data => {
         setStats({ articles: data.length });
       })

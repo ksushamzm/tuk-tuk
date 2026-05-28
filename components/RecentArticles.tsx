@@ -2,25 +2,17 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Ticker from './Ticker';
 import { categoriesData } from '../data/categoriesData';
+import { useSiteContent } from '../context/SiteContentContext';
+import { articlesApi, Article } from '../services/api';
 
-interface Article {
-  id: number;
-  title: string;
-  slug: string;
-  category: string;
-  coverImage: string;
-  excerpt: string;
-}
-
-const RecentArticles: React.FC<{ content?: Record<string, string> }> = ({ content }) => {
+const RecentArticles: React.FC = () => {
+  const { content } = useSiteContent();
   const [articles, setArticles] = useState<Article[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('/api/articles')
-      .then(res => res.json())
+    articlesApi.getAll()
       .then(data => {
-        // Take the first 3 articles
         setArticles(data.slice(0, 3));
         setLoading(false);
       })
@@ -35,7 +27,7 @@ const RecentArticles: React.FC<{ content?: Record<string, string> }> = ({ conten
 
   return (
     <div className="w-full bg-white flex flex-col">
-      <Ticker text={content?.['recent_articles_ticker'] || "НОВЫЕ СТАТЬИ"} direction="left" className="bg-[#0EA5E9]" large />
+      <Ticker text={content['recent_articles_ticker'] || "НОВЫЕ СТАТЬИ"} direction="left" className="bg-[#0EA5E9]" large />
       
       <div className="grid grid-cols-2 lg:grid-cols-3 border-b-2 border-black">
         {articles.map((article, index) => (

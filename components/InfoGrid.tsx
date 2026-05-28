@@ -23,7 +23,7 @@ const InfoGrid: React.FC<InfoGridProps> = ({ onTestClick, content }) => {
          <div className="absolute inset-0 transition-transform duration-500 group-hover:scale-105">
             <img
               src={content?.['info_test_image'] || "/images/тестглавная.png"}
-              alt="Test"
+              alt="Тест"
               className="w-full h-full object-cover object-top"
             />
          </div>
@@ -61,7 +61,7 @@ const InfoGrid: React.FC<InfoGridProps> = ({ onTestClick, content }) => {
             </div>
             
             <div className="absolute bottom-4 right-4 md:bottom-8 md:right-8 z-10 group-hover:translate-x-2 transition-transform">
-               <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1NSIgaGVpZ2h0PSI1NSIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9ImJsYWNrIiBzdHJva2Utd2lkdGg9IjEuNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj48cGF0aCBkPSJNNSAxMmgyNDQgbTctNyA3IDctNyA3IiB0cmFuc2Zvcm09InNjYWxlKDAuMDUpIi8+PHBhdGggZD0iTTUgMTJoMTQiIC8+PHBhdGggZD0ibTEyIDUgNyA3LTcgNyIgLz48L3N2Zz4=" alt="arrow" className="w-8 h-8 md:w-12 md:h-12" />
+               <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1NSIgaGVpZ2h0PSI1NSIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9ImJsYWNrIiBzdHJva2Utd2lkdGg9IjEuNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj48cGF0aCBkPSJNNSAxMmgyNDQgbTctNyA3IDctNyA3IiB0cmFuc2Zvcm09InNjYWxlKDAuMDUpIi8+PHBhdGggZD0iTTUgMTJoMTQiIC8+PHBhdGggZD0ibTEyIDUgNyA3LTcgNyIgLz48L3N2Zz4=" alt="" className="w-8 h-8 md:w-12 md:h-12" />
             </div>
          </div>
       </div>
@@ -76,7 +76,7 @@ const InfoGrid: React.FC<InfoGridProps> = ({ onTestClick, content }) => {
          
          <div className="relative flex-1 flex items-center justify-center transform group-hover:scale-110 transition-transform duration-300">
              <div className="relative">
-                <img src="/images/n.svg" alt="н" className="w-[100px] md:w-[180px] h-auto" style={{ filter: 'drop-shadow(-6px 4px 0px #000000)' }} />
+                <img src="/images/n.svg" alt="" className="w-[100px] md:w-[180px] h-auto" style={{ filter: 'drop-shadow(-6px 4px 0px #000000)' }} />
              </div>
          </div>
 

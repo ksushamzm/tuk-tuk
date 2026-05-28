@@ -1,15 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Plus, Edit, Trash2, Eye } from 'lucide-react';
-
-interface TemplateArticle {
-  id: string;
-  categoryId: string;
-  templateId: number;
-  title: string;
-  image1: string;
-  createdAt: string;
-}
+import { templateArticlesApi, TemplateArticle } from '../../services/api';
 
 const ArticlesList: React.FC = () => {
   const [articles, setArticles] = useState<TemplateArticle[]>([]);
@@ -19,9 +11,7 @@ const ArticlesList: React.FC = () => {
 
   const fetchArticles = async () => {
     try {
-      const res = await fetch('/api/template-articles');
-      if (!res.ok) throw new Error('Failed to fetch articles');
-      const data = await res.json();
+      const data = await templateArticlesApi.getAll();
       setArticles(data);
       setErrorMsg(null);
     } catch (error) {
@@ -42,11 +32,7 @@ const ArticlesList: React.FC = () => {
       return;
     }
     try {
-      const res = await fetch(`/api/template-articles/${encodeURIComponent(id)}`, { method: 'DELETE' });
-      if (!res.ok) {
-        const data = await res.json();
-        throw new Error(data.error || 'Failed to delete');
-      }
+      await templateArticlesApi.delete(id);
       fetchArticles();
       setErrorMsg(null);
       setDeleteConfirm(null);

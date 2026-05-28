@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import Hero from './Hero';
 import CategoryGrid from './CategoryGrid';
@@ -9,39 +9,30 @@ import BlueSection from './BlueSection';
 import PinkSection from './PinkSection';
 import YellowSection from './YellowSection';
 import RecentArticles from './RecentArticles';
+import { useSiteContent } from '../context/SiteContentContext';
+import { useSafeJsonParse } from '../hooks/useSafeJson';
 
 const Home: React.FC = () => {
-  const [content, setContent] = useState<Record<string, string>>({});
-  const [loading, setLoading] = useState(true);
+  const { content, loading } = useSiteContent();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    fetch('/api/content')
-      .then(res => res.json())
-      .then(data => {
-        setContent(data);
-        setLoading(false);
-      })
-      .catch(err => {
-        console.error(err);
-        setLoading(false);
-      });
-  }, []);
+  const blocks = useSafeJsonParse<string[]>(
+    content['home_blocks'],
+    ['Hero', 'RecentArticles', 'CategoryGrid', 'BlueSection', 'InfoGrid', 'MuayThai', 'GreenSection']
+  );
 
   if (loading) return <div className="p-20 text-center font-bold text-2xl">Загрузка...</div>;
-
-  const blocks = JSON.parse(content['home_blocks'] || '["Hero", "RecentArticles", "CategoryGrid", "BlueSection", "InfoGrid", "MuayThai", "GreenSection"]');
 
   return (
     <>
       {blocks.map((block: string, index: number) => {
         switch (block) {
           case 'Hero':
-            return <Hero key={`${block}-${index}`} content={content} />;
+            return <Hero key={`${block}-${index}`} />;
           case 'RecentArticles':
-            return <RecentArticles key={`${block}-${index}`} content={content} />;
+            return <RecentArticles key={`${block}-${index}`} />;
           case 'CategoryGrid':
-            return <CategoryGrid key={`${block}-${index}`} content={content} />;
+            return <CategoryGrid key={`${block}-${index}`} />;
           case 'BlueSection':
             return <BlueSection key={`${block}-${index}`} />;
           case 'GreenSection':
@@ -53,7 +44,7 @@ const Home: React.FC = () => {
           case 'InfoGrid':
             return <InfoGrid key={`${block}-${index}`} content={content} onTestClick={() => navigate('/test')} />;
           case 'MuayThai':
-            return <MuayThai key={`${block}-${index}`} content={content} />;
+            return <MuayThai key={`${block}-${index}`} />;
           default:
             return null;
         }

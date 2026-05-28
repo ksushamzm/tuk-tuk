@@ -1,21 +1,10 @@
 
 import React, { useState, useEffect } from 'react';
 import GreenSection from './GreenSection';
+import { testQuestionsApi, TestQuestion } from '../services/api';
 
-interface Question {
-  id: number;
-  question: string;
-  options: { id: string; text: string }[];
-  correctId: string;
-  explanation: string;
-}
-
-interface TestPageProps {
-  onHomeClick?: () => void;
-}
-
-const TestPage: React.FC<TestPageProps> = () => {
-  const [questions, setQuestions] = useState<Question[]>([]);
+const TestPage: React.FC = () => {
+  const [questions, setQuestions] = useState<TestQuestion[]>([]);
   const [loading, setLoading] = useState(true);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
@@ -23,8 +12,7 @@ const TestPage: React.FC<TestPageProps> = () => {
   const [isFinished, setIsFinished] = useState(false);
 
   useEffect(() => {
-    fetch('/api/test-questions')
-      .then(res => res.json())
+    testQuestionsApi.getAll()
       .then(data => {
         setQuestions(data);
         setLoading(false);
@@ -41,7 +29,7 @@ const TestPage: React.FC<TestPageProps> = () => {
     if (selectedOption) return;
     setSelectedOption(optionId);
     if (optionId === currentQuestion.correctId) {
-      setScore(score + 1);
+      setScore(s => s + 1);
     }
   };
 
@@ -141,12 +129,13 @@ const TestPage: React.FC<TestPageProps> = () => {
 
           {/* Next Arrow */}
           {selectedOption && (
-            <div
+            <button
               onClick={handleNext}
-              className="absolute bottom-12 right-12 cursor-pointer hover:scale-110 transition-transform"
+              className="absolute bottom-12 right-12 cursor-pointer hover:scale-110 transition-transform bg-transparent border-0 p-2"
+              aria-label="Следующий вопрос"
             >
               <svg xmlns="http://www.w3.org/2000/svg" width="55" height="55" viewBox="0 0 24 24" fill="none" stroke="black" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14" /><path d="m12 5 7 7-7 7" /></svg>
-            </div>
+            </button>
           )}
         </div>
       </div>

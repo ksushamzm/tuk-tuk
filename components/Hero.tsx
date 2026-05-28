@@ -3,17 +3,15 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import TukTukLogo from './TukTukLogo';
 import ThaiPinkPattern from './ThaiPinkPattern';
+import { useSiteContent } from '../context/SiteContentContext';
 
-interface HeroProps {
-  content?: Record<string, string>;
-}
-
-const Hero: React.FC<HeroProps> = ({ content }) => {
+const Hero: React.FC = () => {
   const navigate = useNavigate();
+  const { content } = useSiteContent();
 
-  const title = content?.['hero_title'] || 'МЕДИА-ЖУРНАЛ \n О КУЛЬТУРЕ ТАИЛАНДА';
-  const linkText = content?.['hero_link_text'] || 'От храмов до небоскрёбов: \n архитектура Таиланда';
-  const heroImage = content?.['hero_image'] || '/images/справа вторая.jpg';
+  const title = content['hero_title'] || 'МЕДИА-ЖУРНАЛ \n О КУЛЬТУРЕ ТАИЛАНДА';
+  const linkText = content['hero_link_text'] || 'От храмов до небоскрёбов: \n архитектура Таиланда';
+  const heroImage = content['hero_image'] || '/images/справа вторая.jpg';
 
   return (
     <div className="w-full bg-white flex flex-col lg:flex-row border-b-2 border-black">
@@ -48,7 +46,7 @@ const Hero: React.FC<HeroProps> = ({ content }) => {
         <div className="h-[300px] lg:h-[535px] relative overflow-hidden bg-gray-100 shrink-0">
            <img 
             src="/images/слева первая.jpg" 
-            alt="Thai Shrine" 
+            alt="Тайская святыня" 
             className="w-full h-full object-cover"
            />
         </div>
@@ -79,7 +77,7 @@ const Hero: React.FC<HeroProps> = ({ content }) => {
                <div className="flex-1 lg:h-[596px] relative bg-gray-200 overflow-hidden border-b-2 border-black min-h-[400px]">
                   <img
                     src={heroImage}
-                    alt="Hero"
+                    alt="Главное изображение"
                     className="w-full h-full object-cover object-top"
                   />
                </div>
@@ -88,14 +86,14 @@ const Hero: React.FC<HeroProps> = ({ content }) => {
                <div className="absolute top-2 right-2 z-30 w-32 h-32 md:w-40 md:h-40 pointer-events-none">
                    <img
                      src="https://mioaqpjjpsfkzwbg.public.blob.vercel-storage.com/icon/Buddhism.png"
-                     alt="Buddhism"
+                     alt="Буддизм"
                      className="w-full h-full object-contain drop-shadow-[4px_4px_0px_rgba(0,0,0,1)] md:drop-shadow-[6px_6px_0px_rgba(0,0,0,1)]"
                    />
                </div>
 
                {/* ИНТЕРЕСНОЕ label */}
                <div className="absolute top-6 left-8 md:top-10 md:left-[150px] z-20 pointer-events-none">
-                 <img src="/images/интересное.svg" alt="ИНТЕРЕСНОЕ" className="h-8 md:h-12 w-auto" />
+                 <img src="/images/интересное.svg" alt="Интересное" className="h-8 md:h-12 w-auto" />
                </div>
 
                {/* Bottom Link */}

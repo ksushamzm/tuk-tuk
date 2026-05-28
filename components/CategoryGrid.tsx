@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import Ticker from './Ticker';
+import { useSiteContent } from '../context/SiteContentContext';
 
 interface CardProps {
   title: string;
@@ -13,7 +14,7 @@ interface CardProps {
 }
 
 const Card: React.FC<CardProps> = ({ title, description, image, hasSticker, stickerIcon, className = '', onClick }) => (
-  <div onClick={onClick} className={`relative group cursor-pointer border-black flex flex-col ${className}`}>
+  <button onClick={onClick} className={`relative group cursor-pointer border-black flex flex-col bg-transparent p-0 text-left w-full ${className}`}>
     {/* Image */}
     <div className="relative overflow-hidden h-[220px] md:h-[380px] shrink-0">
       <img src={image} alt={title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
@@ -37,18 +38,15 @@ const Card: React.FC<CardProps> = ({ title, description, image, hasSticker, stic
 
     {hasSticker && stickerIcon && (
       <div className="absolute top-[-20px] right-[-20px] z-50 w-32 h-32 md:w-40 md:h-40 pointer-events-none">
-        <img src={stickerIcon} alt="icon" className="w-full h-full object-contain drop-shadow-[4px_4px_0px_rgba(0,0,0,1)]" />
+        <img src={stickerIcon} alt="" className="w-full h-full object-contain drop-shadow-[4px_4px_0px_rgba(0,0,0,1)]" />
       </div>
     )}
-  </div>
+  </button>
 );
 
-interface CategoryGridProps {
-  content?: Record<string, string>;
-}
-
-const CategoryGrid: React.FC<CategoryGridProps> = ({ content }) => {
+const CategoryGrid: React.FC = () => {
   const navigate = useNavigate();
+  const { content } = useSiteContent();
 
   return (
     <div className="w-full bg-white flex flex-col">
@@ -57,27 +55,27 @@ const CategoryGrid: React.FC<CategoryGridProps> = ({ content }) => {
 
       <div className="grid grid-cols-2 md:grid-cols-3 border-b-2 border-black">
         <Card
-          title={content?.['category_1_title'] || "САМЫЕ ПОПУЛЯРНЫЕ ТРАДИЦИОННЫЕ ТАЙСКИЕ НАРЯДЫ"}
-          description={content?.['category_1_description'] || "В Таиланде особенно важна культура..."}
-          image={content?.['category_1_image'] || "/images/транспорт.jpg"}
+          title={content['category_1_title'] || "САМЫЕ ПОПУЛЯРНЫЕ ТРАДИЦИОННЫЕ ТАЙСКИЕ НАРЯДЫ"}
+          description={content['category_1_description'] || "В Таиланде особенно важна культура..."}
+          image={content['category_1_image'] || "/images/транспорт.jpg"}
           hasSticker={true}
           stickerIcon="https://mioaqpjjpsfkzwbg.public.blob.vercel-storage.com/icon/Clothes.png"
           className="border-b-2 md:border-b-0 border-r-2 z-10 md:z-30"
           onClick={() => navigate('/category/этика')}
         />
         <Card
-          title={content?.['category_2_title'] || "ТРАДИЦИОННЫЕ ЭЛЕМЕНТЫ В ХРАМОВЫХ КОМПЛЕКСАХ"}
-          description={content?.['category_2_description'] || "В тайских храмовых комплексах..."}
-          image={content?.['category_2_image'] || "/images/буддизм.jpg"}
+          title={content['category_2_title'] || "ТРАДИЦИОННЫЕ ЭЛЕМЕНТЫ В ХРАМОВЫХ КОМПЛЕКСАХ"}
+          description={content['category_2_description'] || "В тайских храмовых комплексах..."}
+          image={content['category_2_image'] || "/images/буддизм.jpg"}
           hasSticker={true}
           stickerIcon="https://mioaqpjjpsfkzwbg.public.blob.vercel-storage.com/icon/Architecture.png"
           className="border-b-2 md:border-b-0 md:border-r-2 z-20 md:z-20"
           onClick={() => navigate('/category/архитектура')}
         />
         <Card
-          title={content?.['category_3_title'] || "КАКИЕ ПРОЦЕДУРЫ СТОИТ ПОСЕТИТЬ ИМЕННО ВАМ?"}
-          description={content?.['category_3_description'] || "Аюрведа очень популярна в Таиланде..."}
-          image={content?.['category_3_image'] || "/images/архитектура.jpg"}
+          title={content['category_3_title'] || "КАКИЕ ПРОЦЕДУРЫ СТОИТ ПОСЕТИТЬ ИМЕННО ВАМ?"}
+          description={content['category_3_description'] || "Аюрведа очень популярна в Таиланде..."}
+          image={content['category_3_image'] || "/images/архитектура.jpg"}
           hasSticker={true}
           stickerIcon="https://mioaqpjjpsfkzwbg.public.blob.vercel-storage.com/icon/Ayurveda.png"
           className="border-r-2 md:border-r-0 col-span-2 md:col-span-1 z-30 md:z-10"

@@ -38,7 +38,7 @@ const AboutPage: React.FC = () => {
           <div className="flex-1 min-h-[500px]">
             <img 
               src="/images/слева первая.jpg " 
-              alt="Thai Shrine" 
+              alt="Тайская святыня" 
               className="w-full h-full object-cover"
             />
           </div>

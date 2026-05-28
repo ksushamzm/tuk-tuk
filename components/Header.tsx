@@ -24,7 +24,11 @@ const Header: React.FC<HeaderProps> = ({ onAboutClick, onHomeClick, onMailClick,
       </div>
 
       {/* Center: Logo */}
-      <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 cursor-pointer flex flex-col items-center" onClick={onHomeClick}>
+      <button 
+        onClick={onHomeClick}
+        className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 cursor-pointer flex flex-col items-center bg-transparent border-0 p-0 hover:opacity-90 transition-opacity"
+        aria-label="На главную"
+      >
         <div className="relative flex items-end justify-center">
           <TukTukLogo 
             className="h-16 w-auto" 
@@ -40,16 +44,16 @@ const Header: React.FC<HeaderProps> = ({ onAboutClick, onHomeClick, onMailClick,
             МЕДИА
           </span>
         </div>
-      </div>
+      </button>
 
       {/* Right: Actions */}
       <div className="flex items-center gap-8">
-        <span 
+        <button 
           onClick={onAboutClick}
-          className="hidden md:block font-roboto text-2xl italic font-normal text-black cursor-pointer hover:underline underline-offset-4"
+          className="hidden md:block font-roboto text-2xl italic font-normal text-black cursor-pointer hover:underline underline-offset-4 bg-transparent border-0 p-0"
         >
           О журнале
-        </span>
+        </button>
         <div className="flex gap-6">
           <button 
             onClick={onMailClick}

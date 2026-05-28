@@ -1,25 +1,31 @@
 import React, { useState, useEffect } from 'react';
 import { GripVertical, Plus, Trash2 } from 'lucide-react';
+import { siteContentApi } from '../../services/api';
 
 const SiteContentEditor: React.FC = () => {
   const [content, setContent] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+  const [successMsg, setSuccessMsg] = useState<string | null>(null);
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
   useEffect(() => {
-    fetch('/api/content')
-      .then(res => res.json())
+    siteContentApi.get()
       .then(data => {
         setContent(data);
         setLoading(false);
       })
       .catch(err => {
         console.error(err);
+        setErrorMsg('Ошибка загрузки контента');
         setLoading(false);
       });
   }, []);
 
   const handleChange = (key: string, value: string) => {
     setContent(prev => ({ ...prev, [key]: value }));
+    setSuccessMsg(null);
+    setErrorMsg(null);
   };
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>, key: string) => {
@@ -35,21 +41,19 @@ const SiteContentEditor: React.FC = () => {
   };
 
   const handleSave = async () => {
+    setSaving(true);
+    setSuccessMsg(null);
+    setErrorMsg(null);
+    
     try {
-      const res = await fetch('/api/content', {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(content),
-      });
-
-      if (res.ok) {
-        alert('Контент сайта успешно обновлен!');
-      } else {
-        alert('Ошибка при обновлении контента');
-      }
+      await siteContentApi.update(content);
+      setSuccessMsg('Контент сайта успешно обновлен!');
+      setTimeout(() => setSuccessMsg(null), 3000);
     } catch (error) {
       console.error(error);
-      alert('Ошибка при обновлении контента');
+      setErrorMsg('Ошибка при обновлении контента');
+    } finally {
+      setSaving(false);
     }
   };
 
@@ -79,7 +83,7 @@ const SiteContentEditor: React.FC = () => {
     handleChange('home_blocks', JSON.stringify(newBlocks));
   };
 
-  if (loading) return <div>Загрузка...</div>;
+  if (loading) return <div className="p-8 text-lg">Загрузка...</div>;
 
   const availableBlocks = ['Hero', 'RecentArticles', 'CategoryGrid', 'BlueSection', 'GreenSection', 'PinkSection', 'YellowSection', 'InfoGrid', 'MuayThai'];
   const currentBlocks = JSON.parse(content['home_blocks'] || '[]');
@@ -90,11 +94,24 @@ const SiteContentEditor: React.FC = () => {
         <h2 className="text-3xl font-black italic uppercase">Контент сайта</h2>
         <button 
           onClick={handleSave}
-          className="px-6 py-2 bg-black text-white border-2 border-black rounded-lg font-bold hover:bg-gray-800 transition-colors shadow-hard-sm"
+          disabled={saving}
+          className="px-6 py-2 bg-black text-white border-2 border-black rounded-lg font-bold hover:bg-gray-800 transition-colors shadow-hard-sm disabled:opacity-50"
         >
-          Сохранить изменения
+          {saving ? 'Сохранение...' : 'Сохранить изменения'}
         </button>
       </div>
+
+      {successMsg && (
+        <div className="bg-green-100 border-2 border-green-500 text-green-700 p-4 rounded-lg font-bold">
+          {successMsg}
+        </div>
+      )}
+
+      {errorMsg && (
+        <div className="bg-red-100 border-2 border-red-500 text-red-700 p-4 rounded-lg font-bold">
+          {errorMsg}
+        </div>
+      )}
 
       <div className="bg-white p-8 border-2 border-black rounded-xl shadow-hard-sm space-y-8">
         
