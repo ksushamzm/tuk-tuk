@@ -5,7 +5,7 @@ import GreenSection from './GreenSection';
 import PinkSection from './PinkSection';
 import TukTukLogo from './TukTukLogo';
 import ThaiPinkPattern from './ThaiPinkPattern';
-import yellowOrnament2 from '../public/images/yellow_ornament_2.svg';
+const yellowOrnament2 = '/images/yellow_ornament_2.svg';
 
 /* ─── Shared helpers ─── */
 

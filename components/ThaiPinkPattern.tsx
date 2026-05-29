@@ -1,5 +1,5 @@
 import React from 'react';
-import yellowOrnament from '../public/images/yellow_ornament.svg';
+const yellowOrnament = '/images/yellow_ornament.svg';
 
 const ThaiPinkPattern: React.FC<{ className?: string }> = ({ className = "" }) => (
   <div

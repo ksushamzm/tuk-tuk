@@ -1,5 +1,5 @@
 import React from 'react';
-import yellowOrnament2 from '../public/images/yellow_ornament_2.svg';
+const yellowOrnament2 = '/images/yellow_ornament_2.svg';
 
 const PinkSection: React.FC = () => {
   return (
