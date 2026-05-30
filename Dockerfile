@@ -36,5 +36,4 @@ RUN mkdir -p uploads
 # Открываем порт приложения
 EXPOSE 3000
 
-# Запуск с использованием встроенной в Node 22 поддержки TypeScript (без лишних сборщиков)
-CMD ["node", "--experimental-strip-types", "server.ts"]
+CMD ["npx", "tsx", "server.ts"]
