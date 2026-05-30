@@ -1,6 +1,5 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import Ticker from './Ticker';
 import { useSiteContent } from '../context/SiteContentContext';
 
 interface CardProps {
@@ -50,9 +49,6 @@ const CategoryGrid: React.FC = () => {
 
   return (
     <div className="w-full bg-white flex flex-col">
-      {/* Top Ticker */}
-      <Ticker text="СТАТЬИ" large className="bg-[#0EA5E9]" />
-
       <div className="grid grid-cols-2 md:grid-cols-3 border-b-2 border-black">
         <Card
           title={content['category_1_title'] || "САМЫЕ ПОПУЛЯРНЫЕ ТРАДИЦИОННЫЕ ТАЙСКИЕ НАРЯДЫ"}
